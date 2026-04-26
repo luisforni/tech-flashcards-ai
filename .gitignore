@@ -1,8 +1,40 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*~
 
-# dependencies
-/node_modules
-/.pnp
+.vscode/
+.idea/
+*.iml
+*.suo
+*.user
+*.userossc
+*.sln.docstates
+
+*.swp
+*.swo
+
+*.log
+*.pid
+*.seed
+*.pid.lock
+*.tmp
+*.temp
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+node_modules/
+.npm/
+.pnpm-store/
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -10,32 +42,55 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
+.next/
+out/
+build/
+dist/
+coverage/
 *.tsbuildinfo
 next-env.d.ts
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.python-version
+
+.venv/
+venv/
+env/
+ENV/
+
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+
+pip-wheel-metadata/
+*.egg-info/
+.eggs/
+
+.ipynb_checkpoints/
+
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
+!.env.example
+
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.sql
+*.dump
+
+.vercel/
+
+*.pem
