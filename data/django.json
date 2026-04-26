@@ -1,0 +1,308 @@
+{
+  "topic": "django",
+  "title": "Django",
+  "icon": "🐍",
+  "description": "ORM, vistas, autenticación, admin, REST",
+  "cards": [
+    {
+      "cat": "Básico",
+      "q": "¿Qué es Django?",
+      "a": "Framework web de Python de alto nivel que sigue el patrón MTV (Model-Template-View) y la filosofía 'batteries included': ORM, admin, auth, forms, etc., todo incluido."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué diferencia hay entre Django y Flask?",
+      "a": "Django es un framework completo (ORM, admin, auth, etc.). Flask es un microframework: solo routing + templating, tú añades lo demás. Django prioriza productividad; Flask, flexibilidad."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué es el patrón MTV de Django?",
+      "a": "<b>Model</b>: lógica de datos y BD. <b>Template</b>: presentación HTML. <b>View</b>: lógica de negocio que une Model y Template. Es análogo al MVC clásico."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Cómo se crea un proyecto Django?",
+      "a": "<code>django-admin startproject myproject</code> crea la estructura base. <code>python manage.py startapp myapp</code> crea una aplicación dentro del proyecto."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué hace <code>manage.py</code>?",
+      "a": "Es la CLI de Django: <code>runserver</code>, <code>migrate</code>, <code>makemigrations</code>, <code>createsuperuser</code>, <code>shell</code>, <code>test</code>, etc. Envuelve <code>django-admin</code> con la config del proyecto."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué es <code>settings.py</code>?",
+      "a": "Archivo central de configuración: <code>INSTALLED_APPS</code>, <code>DATABASES</code>, <code>MIDDLEWARE</code>, <code>TEMPLATES</code>, <code>SECRET_KEY</code>, <code>DEBUG</code>, <code>ALLOWED_HOSTS</code>, etc."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué es <code>INSTALLED_APPS</code>?",
+      "a": "Lista de strings con todas las apps activas del proyecto. Django las usa para buscar modelos, migrations, admin registrations, templatetags, etc. Toda app propia debe estar aquí."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Cómo funciona el ciclo request-response en Django?",
+      "a": "1) Request llega al servidor. 2) Middleware de entrada la procesa. 3) URL dispatcher mapea la URL a una View. 4) View retorna una Response. 5) Middleware de salida la procesa. 6) Response enviada al cliente."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Qué es el ORM de Django?",
+      "a": "Capa que mapea clases Python a tablas SQL. Permite hacer queries con sintaxis Python sin escribir SQL. Soporta PostgreSQL, MySQL, SQLite, Oracle."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Cómo defines un modelo básico?",
+      "a": "Clase que hereda de <code>models.Model</code>. Los atributos son instancias de Field: <code>CharField</code>, <code>IntegerField</code>, <code>DateTimeField</code>, etc. Django crea la tabla automáticamente."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Qué son las migrations?",
+      "a": "Archivos Python que describen cambios en el esquema de BD. <code>makemigrations</code> las genera a partir de cambios en modelos. <code>migrate</code> las aplica a la base de datos."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Cuál es la diferencia entre <code>ForeignKey</code>, <code>OneToOneField</code> y <code>ManyToManyField</code>?",
+      "a": "<code>ForeignKey</code>: relación N→1. <code>OneToOneField</code>: extensión 1↔1 (ej. perfil de usuario). <code>ManyToManyField</code>: N↔N, Django crea tabla intermedia automática."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Qué hace <code>on_delete=models.CASCADE</code>?",
+      "a": "Cuando se elimina el registro padre, también se eliminan todos los hijos relacionados. Alternativas: <code>PROTECT</code> (error), <code>SET_NULL</code>, <code>SET_DEFAULT</code>, <code>DO_NOTHING</code>."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Cómo haces una query básica en Django?",
+      "a": "<code>Model.objects.all()</code>, <code>.filter(campo=valor)</code>, <code>.get(pk=1)</code>, <code>.exclude()</code>, <code>.order_by('-campo')</code>, <code>.values()</code>, <code>.first()</code>, <code>.count()</code>."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Qué es un QuerySet?",
+      "a": "Objeto lazy que representa una consulta a la BD. No ejecuta la SQL hasta que se itera, se convierte a lista o se evalúa. Permite encadenar filtros eficientemente."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Para qué sirve <code>select_related</code> y <code>prefetch_related</code>?",
+      "a": "<code>select_related</code>: JOIN SQL para FK/OneToOne, reduce queries N+1. <code>prefetch_related</code>: queries separadas para ManyToMany o reverse FK, también evita N+1."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Qué es el problema N+1 en Django?",
+      "a": "Ocurre cuando accedes a una relación dentro de un loop: 1 query inicial + N queries para cada objeto. Se resuelve con <code>select_related</code> o <code>prefetch_related</code>."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Qué son los managers en Django?",
+      "a": "Interfaz para hacer queries. El default es <code>objects</code>. Puedes crear managers personalizados sobreescribiendo <code>get_queryset()</code> para añadir filtros por defecto o métodos custom."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Para qué sirve la clase <code>Meta</code> en un modelo?",
+      "a": "Configura opciones del modelo: <code>ordering</code>, <code>db_table</code>, <code>unique_together</code>, <code>indexes</code>, <code>constraints</code>, <code>verbose_name</code>, <code>abstract</code>, etc."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Cómo haces queries complejas con <code>Q</code> objects?",
+      "a": "<code>from django.db.models import Q</code>. Permite OR: <code>Q(a=1) | Q(b=2)</code>, AND: <code>Q(a=1) & Q(b=2)</code>, NOT: <code>~Q(a=1)</code>. Usarlos en <code>.filter()</code>."
+    },
+    {
+      "cat": "Modelos & ORM",
+      "q": "¿Qué son los <code>F()</code> expressions?",
+      "a": "Permiten referenciar el valor de un campo en la BD sin traerlo a Python. Ej: <code>Product.objects.update(price=F('price') * 1.1)</code>. Útil para actualizaciones atómicas."
+    },
+    {
+      "cat": "Vistas",
+      "q": "¿Qué diferencia hay entre FBV y CBV?",
+      "a": "<b>Function-Based Views</b>: funciones simples, más explícitas, fácil de leer. <b>Class-Based Views</b>: herencia y mixins, más DRY para operaciones CRUD estándar pero más implícitas."
+    },
+    {
+      "cat": "Vistas",
+      "q": "¿Qué Generic CBVs de Django conoces?",
+      "a": "<code>ListView</code>, <code>DetailView</code>, <code>CreateView</code>, <code>UpdateView</code>, <code>DeleteView</code>, <code>TemplateView</code>, <code>RedirectView</code>. Todos en <code>django.views.generic</code>."
+    },
+    {
+      "cat": "Vistas",
+      "q": "¿Cómo restringes acceso a una vista con login?",
+      "a": "FBV: decorador <code>@login_required</code>. CBV: mixin <code>LoginRequiredMixin</code>. También <code>@permission_required</code> para permisos específicos."
+    },
+    {
+      "cat": "Vistas",
+      "q": "¿Qué retorna una View de Django?",
+      "a": "Siempre un objeto <code>HttpResponse</code> o subclase: <code>JsonResponse</code>, <code>HttpResponseRedirect</code>, resultado de <code>render()</code>, <code>redirect()</code>, etc."
+    },
+    {
+      "cat": "Vistas",
+      "q": "¿Qué hace <code>render()</code>?",
+      "a": "Shortcut que combina <code>get_template()</code> + <code>template.render(context)</code> y retorna un <code>HttpResponse</code>. Uso: <code>render(request, 'template.html', context)</code>."
+    },
+    {
+      "cat": "URLs",
+      "q": "¿Cómo configuras las URLs en Django?",
+      "a": "En <code>urls.py</code> defines <code>urlpatterns</code> como lista de <code>path()</code> o <code>re_path()</code>. Se incluyen sub-apps con <code>include('app.urls')</code>. Django hace matching de arriba a abajo."
+    },
+    {
+      "cat": "URLs",
+      "q": "¿Qué diferencia hay entre <code>path()</code> y <code>re_path()</code>?",
+      "a": "<code>path()</code> usa sintaxis simple con convertidores (<code>&lt;int:pk&gt;</code>, <code>&lt;str:slug&gt;</code>). <code>re_path()</code> usa regex completa. Preferir <code>path()</code> por legibilidad."
+    },
+    {
+      "cat": "URLs",
+      "q": "¿Para qué sirve <code>reverse()</code> y <code>{% url %}</code>?",
+      "a": "Generan URLs por nombre en vez de hardcodear strings. <code>reverse('app:view-name', args=[pk])</code> en Python. <code>{% url 'name' pk %}</code> en templates. Evita romper URLs al cambiarlas."
+    },
+    {
+      "cat": "Templates",
+      "q": "¿Qué es el Django Template Language (DTL)?",
+      "a": "Motor de templates propio de Django. Tags: <code>{% for %}</code>, <code>{% if %}</code>, <code>{% block %}</code>, <code>{% include %}</code>. Filtros: <code>{{ var|lower }}</code>, <code>{{ var|date:'Y' }}</code>."
+    },
+    {
+      "cat": "Templates",
+      "q": "¿Cómo funciona la herencia de templates?",
+      "a": "Template base define <code>{% block nombre %}</code>. Templates hijo hacen <code>{% extends 'base.html' %}</code> y sobreescriben los bloques. DRY para layouts comunes."
+    },
+    {
+      "cat": "Templates",
+      "q": "¿Cuándo usarías Jinja2 en vez de DTL?",
+      "a": "Jinja2 es más rápido y permite lógica más compleja en templates. Django lo soporta como backend alternativo. DTL es más restrictivo intencionalmente para separar lógica de presentación."
+    },
+    {
+      "cat": "Forms",
+      "q": "¿Qué son los Django Forms?",
+      "a": "Clases Python que manejan validación, renderizado HTML y limpieza de datos. Heredan de <code>forms.Form</code>. <code>ModelForm</code> genera el form directamente desde un modelo."
+    },
+    {
+      "cat": "Forms",
+      "q": "¿Qué diferencia hay entre <code>Form</code> y <code>ModelForm</code>?",
+      "a": "<code>Form</code>: campos definidos manualmente. <code>ModelForm</code>: campos generados automáticamente desde el modelo. Tiene método <code>.save()</code> que persiste en BD."
+    },
+    {
+      "cat": "Forms",
+      "q": "¿Cómo funciona la validación en un Form?",
+      "a": "<code>form.is_valid()</code> ejecuta: 1) <code>clean_&lt;field&gt;()</code> por campo, 2) <code>clean()</code> global. Errores en <code>form.errors</code>. Datos limpios en <code>form.cleaned_data</code>."
+    },
+    {
+      "cat": "Admin",
+      "q": "¿Qué es el Django Admin?",
+      "a": "Interfaz CRUD generada automáticamente para gestionar modelos. Se activa registrando modelos con <code>admin.site.register(Model)</code> o usando <code>@admin.register(Model)</code>."
+    },
+    {
+      "cat": "Admin",
+      "q": "¿Cómo personalizas el Admin?",
+      "a": "Creas clase <code>ModelAdmin</code>: <code>list_display</code>, <code>list_filter</code>, <code>search_fields</code>, <code>ordering</code>, <code>readonly_fields</code>, <code>inlines</code>, métodos custom, etc."
+    },
+    {
+      "cat": "Admin",
+      "q": "¿Qué son los Inlines en el Admin?",
+      "a": "<code>TabularInline</code> y <code>StackedInline</code> permiten editar objetos relacionados directamente en la página del objeto padre. Se definen como clases y se añaden a <code>inlines</code> del <code>ModelAdmin</code>."
+    },
+    {
+      "cat": "Auth & Seguridad",
+      "q": "¿Qué sistema de auth incluye Django?",
+      "a": "User model, grupos, permisos, sessions, login/logout views, password hashing (PBKDF2 por defecto), decoradores de protección de vistas y middleware de sesiones."
+    },
+    {
+      "cat": "Auth & Seguridad",
+      "q": "¿Cómo extiendes el modelo User de Django?",
+      "a": "Opción 1: <code>AbstractUser</code> (recomendado, añades campos). Opción 2: <code>AbstractBaseUser</code> (control total). Opción 3: <code>OneToOneField</code> a un Profile (no recomendado para proyectos nuevos)."
+    },
+    {
+      "cat": "Auth & Seguridad",
+      "q": "¿Qué protecciones de seguridad incluye Django por defecto?",
+      "a": "CSRF protection, XSS via auto-escaping en templates, SQL injection via ORM parametrizado, clickjacking via X-Frame-Options, HTTPS redirect y HSTS configurables."
+    },
+    {
+      "cat": "Auth & Seguridad",
+      "q": "¿Qué es el CSRF token y por qué es importante?",
+      "a": "Token único por sesión incluido en formularios POST (<code>{% csrf_token %}</code>). Evita ataques Cross-Site Request Forgery donde un sitio malicioso hace requests autenticados en nombre del usuario."
+    },
+    {
+      "cat": "Middleware",
+      "q": "¿Qué es un Middleware en Django?",
+      "a": "Capa que procesa requests/responses globalmente. Se ejecuta en orden en entrada y en orden inverso en salida. Usa para: auth, logging, CORS, caché, compresión, etc."
+    },
+    {
+      "cat": "Middleware",
+      "q": "¿Cómo creas un Middleware custom?",
+      "a": "Clase con <code>__init__(self, get_response)</code> y <code>__call__(self, request)</code>. Dentro de <code>__call__</code>, llamas <code>get_response(request)</code> para pasar al siguiente. Añadir a <code>MIDDLEWARE</code> en settings."
+    },
+    {
+      "cat": "Signals",
+      "q": "¿Qué son los Signals de Django?",
+      "a": "Sistema pub/sub para desacoplar componentes. Permite ejecutar código cuando ocurren eventos (pre_save, post_save, pre_delete, etc.) sin modificar el modelo original."
+    },
+    {
+      "cat": "Signals",
+      "q": "¿Cuándo usarías un Signal vs sobreescribir <code>save()</code>?",
+      "a": "Signal: cuando necesitas reaccionar a cambios desde código desacoplado (otra app). <code>save()</code> override: lógica intrínseca del modelo. Los signals pueden ser difíciles de debuggear, úsalos con criterio."
+    },
+    {
+      "cat": "Django REST Framework",
+      "q": "¿Qué es Django REST Framework (DRF)?",
+      "a": "Librería de terceros para construir APIs REST con Django. Añade serializers, viewsets, routers, authentication, permissions, throttling, browsable API, pagination, etc."
+    },
+    {
+      "cat": "Django REST Framework",
+      "q": "¿Qué es un Serializer en DRF?",
+      "a": "Convierte objetos Python/QuerySets a JSON (serialización) y viceversa (deserialización). Maneja validación de datos. <code>ModelSerializer</code> se genera desde un modelo automáticamente."
+    },
+    {
+      "cat": "Django REST Framework",
+      "q": "¿Qué diferencia hay entre APIView, ViewSet y ModelViewSet?",
+      "a": "<code>APIView</code>: CBV básica, defines métodos HTTP. <code>ViewSet</code>: agrupa actions. <code>ModelViewSet</code>: CRUD completo automático (list, create, retrieve, update, destroy)."
+    },
+    {
+      "cat": "Django REST Framework",
+      "q": "¿Qué son los Routers en DRF?",
+      "a": "Generan automáticamente URLs para ViewSets. <code>DefaultRouter</code> crea endpoints RESTful estándar. Evita definir cada URL manualmente."
+    },
+    {
+      "cat": "Django REST Framework",
+      "q": "¿Cómo implementas autenticación en DRF?",
+      "a": "Session, Token (DRF built-in), JWT (djangorestframework-simplejwt). Se configura en <code>DEFAULT_AUTHENTICATION_CLASSES</code>. Permisos en <code>DEFAULT_PERMISSION_CLASSES</code>."
+    },
+    {
+      "cat": "Caché & Performance",
+      "q": "¿Qué backends de caché soporta Django?",
+      "a": "<code>LocMemCache</code> (default, in-process), <code>FileBasedCache</code>, <code>MemcachedCache</code>, <code>RedisCache</code> (recomendado producción). Config en <code>CACHES</code> de settings."
+    },
+    {
+      "cat": "Caché & Performance",
+      "q": "¿Cómo cacheas una vista completa en Django?",
+      "a": "Decorador <code>@cache_page(60*15)</code> para FBV. Mixin <code>CacheControlMixin</code> o <code>cache_page</code> en <code>urls.py</code> para CBV. También caché por fragmento en templates con <code>{% cache %}</code>."
+    },
+    {
+      "cat": "Caché & Performance",
+      "q": "¿Cómo optimizas queries en Django para producción?",
+      "a": "1) <code>select_related</code>/<code>prefetch_related</code> para N+1. 2) <code>.only()</code>/<code>.defer()</code> para campos. 3) <code>.values()</code>/<code>.values_list()</code>. 4) <code>bulk_create</code>/<code>bulk_update</code>. 5) Índices en modelos. 6) Django Debug Toolbar para detectar queries."
+    },
+    {
+      "cat": "Celery & Async",
+      "q": "¿Cómo integras Celery con Django?",
+      "a": "Crear <code>celery.py</code> en el proyecto, configurar <code>CELERY_BROKER_URL</code> (Redis/RabbitMQ), decorar funciones con <code>@shared_task</code>. Permite tareas asíncronas y programadas (beat)."
+    },
+    {
+      "cat": "Celery & Async",
+      "q": "¿Cuándo usarías Celery en un proyecto Django?",
+      "a": "Emails, procesamiento de imágenes, llamadas a APIs externas, reportes pesados, scraping, notificaciones push, cualquier tarea que no deba bloquear el request/response cycle."
+    },
+    {
+      "cat": "Celery & Async",
+      "q": "¿Qué soporte async tiene Django nativo?",
+      "a": "Desde Django 3.1: vistas async (<code>async def</code>), middleware async, ORM parcialmente async. Django 4.1+: ORM totalmente async con <code>await Model.objects.acreate()</code>, etc."
+    },
+    {
+      "cat": "Despliegue",
+      "q": "¿Cómo despliegas Django en producción?",
+      "a": "Gunicorn/uWSGI como WSGI server + Nginx como proxy inverso para estáticos. Variables de entorno para secrets. <code>DEBUG=False</code>, <code>ALLOWED_HOSTS</code> configurados. WhiteNoise o CDN para archivos estáticos."
+    },
+    {
+      "cat": "Despliegue",
+      "q": "¿Cómo gestionas archivos estáticos en producción?",
+      "a": "<code>STATIC_ROOT</code> define el directorio de colección. <code>python manage.py collectstatic</code> los reúne. Nginx los sirve directamente o se usa WhiteNoise para simplificar."
+    },
+    {
+      "cat": "Despliegue",
+      "q": "¿Cómo gestionas configuración sensible en Django?",
+      "a": "Variables de entorno con <code>os.environ</code> o librerías como <code>python-decouple</code> o <code>django-environ</code>. Nunca hardcodear <code>SECRET_KEY</code>, DB passwords, API keys en el código."
+    }
+  ]
+}

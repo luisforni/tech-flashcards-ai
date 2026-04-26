@@ -1,0 +1,353 @@
+{
+  "topic": "python",
+  "title": "Python",
+  "icon": "🐍",
+  "description": "Tipos, iteradores, decoradores, GIL, concurrencia",
+  "cards": [
+    {
+      "cat": "Básico · Tipos",
+      "q": "¿Qué tipo de lenguaje es Python?",
+      "a": "Interpretado, de alto nivel, <b>tipado dinámico</b> (el tipo se resuelve en runtime) y <b>fuertemente tipado</b> (no mezcla tipos sin conversión: <code>'1' + 1</code> da <code>TypeError</code>). Multiparadigma: OOP, funcional, imperativo."
+    },
+    {
+      "cat": "Básico · Tipos",
+      "q": "¿Cuáles son los tipos de datos built-in de Python?",
+      "a": "<b>Escalares</b>: <code>int</code>, <code>float</code>, <code>complex</code>, <code>bool</code>, <code>str</code>, <code>None</code>. <b>Colecciones mutables</b>: <code>list</code>, <code>dict</code>, <code>set</code>. <b>Colecciones inmutables</b>: <code>tuple</code>, <code>frozenset</code>."
+    },
+    {
+      "cat": "Básico · Tipos",
+      "q": "¿Qué son los tipos mutables e inmutables?",
+      "a": "<b>Inmutables</b>: int, float, str, tuple, frozenset — no se pueden modificar tras crearse. <b>Mutables</b>: list, dict, set — sí. Solo inmutables pueden ser keys de dict. La mutabilidad afecta cómo se comportan como argumentos de función."
+    },
+    {
+      "cat": "Básico · Tipos",
+      "q": "¿Python pasa argumentos por valor o por referencia?",
+      "a": "Ni uno ni otro: pasa <b>por referencia de objeto</b>. Si el objeto es mutable y lo modificás dentro de la función, el cambio se refleja fuera. Si reasignás el parámetro (<code>x = otra_cosa</code>), no afecta al exterior."
+    },
+    {
+      "cat": "Básico · Tipos",
+      "q": "¿Qué diferencia hay entre <code>is</code> y <code>==</code>?",
+      "a": "<code>==</code> compara <b>valor</b> (igualdad). <code>is</code> compara <b>identidad</b> (mismo objeto en memoria, mismo <code>id()</code>). Usar <code>is</code> solo para <code>None</code>, <code>True</code>, <code>False</code>. Nunca <code>x is 'string'</code>."
+    },
+    {
+      "cat": "Básico · Tipos",
+      "q": "¿Qué es el slicing en Python?",
+      "a": "<code>seq[start:stop:step]</code>. Índices negativos cuentan desde el final. <code>lst[::-1]</code> invierte. Funciona en listas, strings, tuples, bytes. No lanza <code>IndexError</code> si el rango supera la longitud."
+    },
+    {
+      "cat": "Básico · Control de flujo",
+      "q": "¿Qué operadores tiene Python?",
+      "a": "<b>Aritméticos</b>: <code>+</code> <code>-</code> <code>*</code> <code>/</code> (float) <code>//</code> (entera) <code>%</code> (módulo) <code>**</code> (potencia). <b>Lógicos</b>: <code>and</code>, <code>or</code>, <code>not</code>. <b>Comparación</b>: <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>is</code>, <code>in</code>."
+    },
+    {
+      "cat": "Básico · Control de flujo",
+      "q": "¿Cómo funciona el control de flujo en Python?",
+      "a": "<code>if/elif/else</code> para condiciones. <code>for x in iterable</code> para iterar. <code>while condición</code> mientras sea verdadero. <code>break</code>: sale del loop. <code>continue</code>: salta a la siguiente iteración. <code>pass</code>: bloque vacío."
+    },
+    {
+      "cat": "Básico · Control de flujo",
+      "q": "¿Qué es el operador ternario en Python?",
+      "a": "<code>valor_si_true if condición else valor_si_false</code>. Ejemplo: <code>x = 'par' if n % 2 == 0 else 'impar'</code>. Es una expresión, no una sentencia — se puede usar inline, dentro de listas, funciones, etc."
+    },
+    {
+      "cat": "Básico · Funciones",
+      "q": "¿Cómo defines y llamas una función en Python?",
+      "a": "<code>def nombre(param1, param2=default):</code> seguido del cuerpo indentado. <code>return valor</code> retorna. Sin <code>return</code> explícito devuelve <code>None</code>. Se puede llamar por posición o por keyword: <code>f(param2=val)</code>."
+    },
+    {
+      "cat": "Básico · Funciones",
+      "q": "¿Cuál es el bug clásico del argumento mutable por defecto?",
+      "a": "<code>def f(lst=[])</code>: la lista se crea <b>una sola vez</b> al definir la función y se reutiliza entre llamadas. Patrón correcto: <code>def f(lst=None): if lst is None: lst = []</code>. El mismo problema aplica a dicts y sets."
+    },
+    {
+      "cat": "Básico · Funciones",
+      "q": "¿Qué es el scope LEGB?",
+      "a": "Python busca variables en: <b>L</b>ocal → <b>E</b>nclosing → <b>G</b>lobal → <b>B</b>uilt-in. <code>global x</code> modifica variable global desde dentro de una función. <code>nonlocal x</code> modifica la del enclosing scope (closure)."
+    },
+    {
+      "cat": "Básico · Errores",
+      "q": "¿Cómo funciona el manejo de excepciones en Python?",
+      "a": "<code>try/except/else/finally</code>. <code>except TypeError as e</code> captura el tipo. <code>else</code> se ejecuta si no hubo excepción. <code>finally</code> siempre se ejecuta — ideal para limpiar recursos. Se pueden capturar múltiples tipos: <code>except (A, B)</code>."
+    },
+    {
+      "cat": "Básico · Errores",
+      "q": "¿Cómo lanzás y creás excepciones propias?",
+      "a": "<code>raise ValueError('mensaje')</code> para lanzar. <code>raise NewError() from original</code> encadena con contexto. Excepciones propias: heredar de <code>Exception</code>. Nombres terminados en <code>Error</code> por convención."
+    },
+    {
+      "cat": "Básico · Errores",
+      "q": "¿Cómo manejás archivos en Python?",
+      "a": "Siempre con <code>with open('f.txt', 'r') as f:</code> — cierra el archivo automáticamente aunque haya error. Modos: <code>'r'</code> leer, <code>'w'</code> escribir (sobreescribe), <code>'a'</code> append, <code>'rb'</code>/<code>'wb'</code> binario."
+    },
+    {
+      "cat": "Básico · Comprensiones",
+      "q": "¿Qué es una list comprehension?",
+      "a": "<code>[expr for x in iterable if condición]</code>. Más rápida y legible que un loop equivalente. Crea toda la lista en memoria (eager). Usarla cuando la lógica sea simple — si hay muchos niveles, preferir un loop normal."
+    },
+    {
+      "cat": "Básico · Comprensiones",
+      "q": "¿Qué diferencia hay entre list comprehension y generator expression?",
+      "a": "<code>[x for x in r]</code> → list, todo en memoria (eager). <code>(x for x in r)</code> → generator, <b>lazy</b>: genera un elemento a la vez. Mejor para secuencias grandes o cuando no necesitás todos los valores a la vez."
+    },
+    {
+      "cat": "Básico · Comprensiones",
+      "q": "¿Qué otros tipos de comprensiones existen?",
+      "a": "<b>Dict</b>: <code>{k: v for k, v in items.items()}</code>. <b>Set</b>: <code>{x for x in lista}</code> — garantiza unicidad. <b>Generator</b>: <code>(x for x in r)</code>. El mismo patrón que list pero con la sintaxis del tipo destino."
+    },
+    {
+      "cat": "Intermedio · Funciones",
+      "q": "¿Qué son <code>*args</code> y <code>**kwargs</code>?",
+      "a": "<code>*args</code>: captura argumentos posicionales extras como <b>tuple</b>. <code>**kwargs</code>: captura keyword extras como <b>dict</b>. Útiles para wrappers y funciones genéricas. Se combinan: <code>def f(a, *args, **kwargs)</code>."
+    },
+    {
+      "cat": "Intermedio · Funciones",
+      "q": "¿Qué es un closure en Python?",
+      "a": "Función que <b>recuerda el estado del scope</b> donde fue creada, incluso cuando ese scope ya no existe. Requiere función anidada que referencia variable del enclosing scope. Base de los decoradores y fábricas de funciones."
+    },
+    {
+      "cat": "Intermedio · Funciones",
+      "q": "¿Qué es una lambda y cuándo usarla?",
+      "a": "Función anónima de una sola expresión: <code>lambda x, y: x + y</code>. Útil como argumento de <code>sorted(key=lambda x: x[1])</code>, <code>map()</code>, <code>filter()</code>. Para lógica compleja, usar <code>def</code> con nombre por legibilidad y testabilidad."
+    },
+    {
+      "cat": "Intermedio · Funciones",
+      "q": "¿Qué son las funciones de orden superior?",
+      "a": "Funciones que toman otras funciones como argumento o las retornan. Ejemplos: <code>map(fn, it)</code>, <code>filter(fn, it)</code>, <code>sorted(lst, key=fn)</code>, decoradores. En Python las funciones son first-class objects."
+    },
+    {
+      "cat": "Intermedio · Decoradores",
+      "q": "¿Qué es un decorador en Python?",
+      "a": "Función que <b>envuelve otra función</b> para modificar su comportamiento sin tocar su código. La sintaxis <code>@decorador</code> es azúcar para <code>f = decorador(f)</code>. Se aplica en tiempo de definición, no de llamada."
+    },
+    {
+      "cat": "Intermedio · Decoradores",
+      "q": "¿Por qué usar <code>@functools.wraps</code>?",
+      "a": "Preserva el <code>__name__</code>, <code>__doc__</code> y metadata de la función original. Sin él, la función decorada pierde su identidad — rompe introspección, logging y testing. Siempre ponerlo dentro del wrapper."
+    },
+    {
+      "cat": "Intermedio · Decoradores",
+      "q": "¿Cómo creás un decorador con parámetros?",
+      "a": "Necesitás <b>tres niveles</b>: la función exterior recibe los parámetros → retorna el decorador → que envuelve la función. Ej: <code>@retry(times=3)</code>. El nivel extra es el 'factory' del decorador."
+    },
+    {
+      "cat": "Intermedio · Decoradores",
+      "q": "¿Se pueden apilar varios decoradores?",
+      "a": "Sí. Se aplican de abajo hacia arriba: <code>@A</code> sobre <code>@B</code> equivale a <code>A(B(f))</code>. El orden importa porque cada decorador transforma la función antes de pasarla al siguiente."
+    },
+    {
+      "cat": "Intermedio · Decoradores",
+      "q": "¿Qué decoradores importantes trae la stdlib?",
+      "a": "<code>@property</code>: método como atributo. <code>@classmethod</code>: recibe <code>cls</code>. <code>@staticmethod</code>: sin <code>self</code> ni <code>cls</code>. <code>@functools.lru_cache</code>: memoización automática. <code>@dataclass</code>: genera <code>__init__</code>, <code>__repr__</code>, <code>__eq__</code>."
+    },
+    {
+      "cat": "Intermedio · OOP",
+      "q": "¿Qué son los métodos dunder (magic methods)?",
+      "a": "Métodos con doble guión bajo que Python llama automáticamente. <code>__init__</code>: constructor. <code>__str__</code>: para <code>print()</code>. <code>__repr__</code>: debug/REPL. <code>__len__</code>, <code>__eq__</code>, <code>__lt__</code>, <code>__add__</code>, <code>__enter__</code>/<code>__exit__</code>."
+    },
+    {
+      "cat": "Intermedio · OOP",
+      "q": "¿Qué diferencia hay entre <code>__str__</code> y <code>__repr__</code>?",
+      "a": "<code>__str__</code>: representación <b>legible para el usuario</b>, usada por <code>print()</code>. <code>__repr__</code>: representación <b>técnica para debug</b>, usada en el REPL. Si solo definís uno, definí <code>__repr__</code> — se usa como fallback."
+    },
+    {
+      "cat": "Intermedio · OOP",
+      "q": "¿Qué diferencia hay entre <code>@classmethod</code> y <code>@staticmethod</code>?",
+      "a": "<code>@classmethod</code>: primer argumento es <code>cls</code>. Puede acceder y modificar la clase. Útil como <b>factory</b>: <code>User.from_dict(data)</code>. <code>@staticmethod</code>: sin <code>self</code> ni <code>cls</code>. Función agrupada en la clase por cohesión."
+    },
+    {
+      "cat": "Intermedio · OOP",
+      "q": "¿Qué es la herencia múltiple y el MRO?",
+      "a": "Python permite heredar de múltiples clases. El <b>MRO</b> (Method Resolution Order) determina el orden de búsqueda de métodos con el algoritmo <b>C3 Linearization</b>. Se consulta con <code>Clase.__mro__</code>. <code>super()</code> respeta el MRO."
+    },
+    {
+      "cat": "Intermedio · OOP",
+      "q": "¿Qué es duck typing?",
+      "a": "El tipo se determina por los métodos que tiene el objeto, no por su clase. 'Si camina como un pato y grazna como un pato, es un pato'. Permite escribir código genérico sin depender de herencia explícita."
+    },
+    {
+      "cat": "Intermedio · OOP",
+      "q": "¿Qué son las ABCs (Abstract Base Classes)?",
+      "a": "Del módulo <code>abc</code>. Una clase con <code>@abstractmethod</code> no puede instanciarse directamente. Las subclases deben implementar todos los métodos abstractos. Define contratos/interfaces. Más estricto que duck typing."
+    },
+    {
+      "cat": "Intermedio · OOP",
+      "q": "¿Qué son las dataclasses?",
+      "a": "<code>@dataclass</code> (Python 3.7+): genera automáticamente <code>__init__</code>, <code>__repr__</code>, <code>__eq__</code>. Con <code>frozen=True</code> es inmutable. Con <code>field()</code> personalizás defaults. Más limpio que escribir todo a mano."
+    },
+    {
+      "cat": "Intermedio · Generadores",
+      "q": "¿Qué diferencia hay entre iterable e iterador?",
+      "a": "<b>Iterable</b>: objeto con <code>__iter__</code> (list, dict, str). <b>Iterador</b>: objeto con <code>__iter__</code> y <code>__next__</code>, mantiene estado. <code>iter(iterable)</code> convierte. Los iteradores se agotan: una vez recorridos, terminan."
+    },
+    {
+      "cat": "Intermedio · Generadores",
+      "q": "¿Qué es un generador y cómo funciona <code>yield</code>?",
+      "a": "Función que usa <code>yield</code> en vez de <code>return</code>. <b>Suspende</b> la ejecución y retorna un valor. Al llamar <code>next()</code> reanuda desde donde se quedó. Es <b>lazy</b>: no calcula todo de una. Ideal para secuencias grandes o infinitas."
+    },
+    {
+      "cat": "Intermedio · Generadores",
+      "q": "¿Para qué sirve <code>yield from</code>?",
+      "a": "Delega a otro generador o iterable. Más eficiente que <code>for x in sub: yield x</code>. También propaga correctamente <code>send()</code> y <code>throw()</code> al subgenerador. Útil para componer generadores."
+    },
+    {
+      "cat": "Intermedio · Generadores",
+      "q": "¿Qué ofrece el módulo <code>itertools</code>?",
+      "a": "Iteradores eficientes de la stdlib: <code>chain</code> (une iterables), <code>product</code> (producto cartesiano), <code>combinations</code>, <code>permutations</code>, <code>groupby</code> (agrupa por clave), <code>islice</code>, <code>cycle</code>, <code>accumulate</code>."
+    },
+    {
+      "cat": "Intermedio · Colecciones",
+      "q": "¿Cuándo usás <code>collections.deque</code> en vez de list?",
+      "a": "<code>deque</code>: O(1) para append/pop en <b>ambos extremos</b>. Lista: O(n) al inicio. Usar para queues y stacks con operaciones frecuentes en ambos lados. También tiene <code>maxlen</code> para ventanas deslizantes automáticas."
+    },
+    {
+      "cat": "Intermedio · Colecciones",
+      "q": "¿Qué es <code>collections.defaultdict</code>?",
+      "a": "Dict que crea automáticamente un valor por defecto para claves inexistentes. <code>defaultdict(list)</code>: cada clave nueva tiene <code>[]</code>. <code>defaultdict(int)</code>: tiene <code>0</code>. Evita el patrón <code>if key not in d: d[key] = []</code>."
+    },
+    {
+      "cat": "Intermedio · Colecciones",
+      "q": "¿Qué hace <code>collections.Counter</code>?",
+      "a": "Cuenta elementos de un iterable. <code>Counter('aabbc')</code> → <code>{'a':2,'b':2,'c':1}</code>. <code>.most_common(n)</code>: los n más frecuentes. Soporta suma y resta de contadores. Subclase de dict."
+    },
+    {
+      "cat": "Intermedio · Colecciones",
+      "q": "¿Qué módulos de la stdlib usás más?",
+      "a": "<code>json</code>: <code>dumps/loads</code> serializar. <code>pathlib.Path</code>: rutas modernas. <code>datetime</code>: fechas y tiempos. <code>logging</code>: logs con niveles. <code>functools</code>: <code>lru_cache</code>, <code>wraps</code>, <code>partial</code>. <code>os</code>, <code>sys</code> para el entorno."
+    },
+    {
+      "cat": "Avanzado · Async",
+      "q": "¿Qué es asyncio y cuándo lo usás?",
+      "a": "Framework de <b>concurrencia cooperativa</b> con un solo thread. Un event loop gestiona múltiples corrutinas que se turnan ceder el control. Ideal para <b>I/O-bound</b> con muchas conexiones simultáneas (APIs, scrapers, servidores). No sirve para CPU-bound."
+    },
+    {
+      "cat": "Avanzado · Async",
+      "q": "¿Qué diferencia hay entre <code>async def</code>, <code>await</code> y una corrutina?",
+      "a": "<code>async def</code> define una <b>corrutina</b>. <code>await expr</code> suspende la corrutina actual hasta que el awaitable termine — el event loop retoma otras mientras espera. Sin <code>await</code>, la corrutina no cede el control nunca."
+    },
+    {
+      "cat": "Avanzado · Async",
+      "q": "¿Qué pasa si usás código bloqueante en <code>async def</code>?",
+      "a": "Bloqueás el event loop entero: ninguna otra corrutina se ejecuta mientras dure la operación. <code>time.sleep(5)</code> o <code>requests.get(url)</code> en async congela el servidor. Solución: <code>await asyncio.sleep()</code>, <code>httpx.AsyncClient</code>, o <code>asyncio.to_thread(fn)</code>."
+    },
+    {
+      "cat": "Avanzado · Async",
+      "q": "¿Qué hace <code>asyncio.gather()</code>?",
+      "a": "Ejecuta múltiples corrutinas <b>concurrentemente</b> y espera a que todas terminen. Retorna resultados en orden. Equivalente a <code>Promise.all()</code> en JS. Para cancelación individual, Python 3.11+ tiene <code>asyncio.TaskGroup</code>."
+    },
+    {
+      "cat": "Avanzado · Async",
+      "q": "¿Cuándo usás threading vs multiprocessing vs asyncio?",
+      "a": "<b>asyncio</b>: muchas conexiones I/O simultáneas. <b>threading</b>: I/O-bound con código legacy síncrono (el GIL se libera en I/O). <b>multiprocessing</b>: CPU-bound — procesos separados, cada uno con su GIL. Regla: ¿esperás? → async. ¿calculás? → multiprocessing."
+    },
+    {
+      "cat": "Avanzado · Async",
+      "q": "¿Qué es el GIL y por qué importa?",
+      "a": "<b>Global Interpreter Lock</b>: mutex en CPython que permite que solo un thread ejecute bytecode a la vez. Limita el paralelismo CPU con threads. No afecta a <code>multiprocessing</code> ni a I/O (el GIL se libera durante operaciones I/O)."
+    },
+    {
+      "cat": "Avanzado · Metaprogramación",
+      "q": "¿Qué es un descriptor en Python?",
+      "a": "Objeto que implementa <code>__get__</code>, <code>__set__</code>, <code>__delete__</code>. Controla el acceso a atributos de clase. <code>property</code>, <code>classmethod</code> y <code>staticmethod</code> son descriptores built-in. Usados en ORMs para mapear columnas."
+    },
+    {
+      "cat": "Avanzado · Metaprogramación",
+      "q": "¿Qué es una metaclase?",
+      "a": "La clase de una clase. <code>type</code> es la metaclase por defecto. Permite modificar la creación de clases: validar atributos, registrar subclases, añadir métodos automáticamente. Uso real: ORM de Django, frameworks. Si podés evitarla, evitala."
+    },
+    {
+      "cat": "Avanzado · Metaprogramación",
+      "q": "¿Qué diferencia hay entre <code>__new__</code> y <code>__init__</code>?",
+      "a": "<code>__new__</code>: <b>crea</b> la instancia (retorna el objeto). <code>__init__</code>: <b>inicializa</b> la instancia ya creada. Sobreescribir <code>__new__</code> para controlar la creación: Singleton, tipos inmutables custom como subclases de <code>str</code> o <code>int</code>."
+    },
+    {
+      "cat": "Avanzado · Metaprogramación",
+      "q": "¿Qué herramientas de introspección tenés en Python?",
+      "a": "<code>type(obj)</code>: tipo del objeto. <code>isinstance(obj, Clase)</code>: chequea herencia. <code>hasattr(obj, 'attr')</code>. <code>getattr(obj, 'attr', default)</code>: obtiene dinámicamente. <code>dir(obj)</code>: lista atributos y métodos. <code>inspect</code> para análisis profundo."
+    },
+    {
+      "cat": "Avanzado · Metaprogramación",
+      "q": "¿Qué diferencia hay entre <code>__getattr__</code> y <code>__getattribute__</code>?",
+      "a": "<code>__getattr__</code>: se llama SOLO cuando el atributo <b>no se encuentra</b> por el mecanismo normal. <code>__getattribute__</code>: se llama en <b>cada</b> acceso a atributo. Sobreescribir el segundo con mucho cuidado para evitar recursión infinita."
+    },
+    {
+      "cat": "Avanzado · Optimización",
+      "q": "¿Cómo profileás código Python?",
+      "a": "<code>cProfile</code>: profiling completo de llamadas. <code>timeit</code>: medir snippets. <code>memory_profiler</code>: memoria línea a línea. En producción: <b>Py-Spy</b> (sampling sin overhead). Regla: <b>medir antes de optimizar</b>, nunca a ciegas."
+    },
+    {
+      "cat": "Avanzado · Optimización",
+      "q": "¿Qué es <code>@functools.lru_cache</code>?",
+      "a": "Memoización automática: cachea los resultados por argumentos. Segunda llamada con los mismos args usa el cache. <code>maxsize=128</code> por defecto. Python 3.9+: <code>@functools.cache</code> sin límite. Solo funciona con argumentos <b>hashables</b>."
+    },
+    {
+      "cat": "Avanzado · Optimización",
+      "q": "¿Qué son <code>__slots__</code> y para qué sirven?",
+      "a": "Definen atributos fijos en una clase, eliminando el <code>__dict__</code> por instancia. Reduce memoria <b>significativamente</b> con millones de objetos. Trade-off: no podés añadir atributos dinámicos no declarados."
+    },
+    {
+      "cat": "Avanzado · Optimización",
+      "q": "¿Cómo funciona el garbage collector de Python?",
+      "a": "CPython usa <b>reference counting</b>: cuando el refcount llega a 0, el objeto se libera inmediatamente. El módulo <code>gc</code> maneja <b>ciclos de referencia</b> con un collector generacional. La liberación es determinista, a diferencia de Java o Go."
+    },
+    {
+      "cat": "Avanzado · Patrones",
+      "q": "¿Cómo implementás un Singleton en Python?",
+      "a": "La forma más pythónica: <b>variable de módulo</b> (los módulos ya son singletons). Con clase: sobreescribir <code>__new__</code> para retornar siempre la misma instancia, o usar una metaclase. En la práctica, los módulos cubren el 90% de los casos."
+    },
+    {
+      "cat": "Avanzado · Patrones",
+      "q": "¿Cómo implementás el patrón Factory?",
+      "a": "<code>@classmethod</code> que crea objetos sin exponer la lógica de creación: <code>User.from_dict(data)</code>, <code>LLM.from_provider('openai')</code>. También: función que retorna diferentes subclases según el input. Muy útil en código con múltiples providers."
+    },
+    {
+      "cat": "Avanzado · Patrones",
+      "q": "¿Cómo implementás el patrón Strategy en Python?",
+      "a": "En Python las funciones son <b>first-class objects</b>: podés pasarlas como parámetros directamente. No necesitás clases abstractas. <code>sorted(lst, key=mi_estrategia)</code> ya es Strategy. Para más complejidad: clase con método <code>execute()</code> intercambiable."
+    },
+    {
+      "cat": "Avanzado · Patrones",
+      "q": "¿Qué es el Context Manager como patrón?",
+      "a": "Objeto con <code>__enter__</code> y <code>__exit__</code>. Garantiza cleanup aunque haya excepciones. Con <code>@contextlib.contextmanager</code> + <code>yield</code> podés crear uno sin clase — código antes del yield = setup, código en <code>finally</code> = teardown."
+    },
+    {
+      "cat": "Avanzado · Patrones",
+      "q": "¿Qué es el patrón Observer en Python?",
+      "a": "Objeto notifica a suscriptores cuando cambia su estado. En Python: listas de callbacks, signals de Django, o eventos con <code>asyncio</code>. Base de sistemas event-driven. Permite desacoplar productores de consumidores."
+    },
+    {
+      "cat": "Avanzado · Testing",
+      "q": "¿Qué diferencia hay entre unittest y pytest?",
+      "a": "<code>unittest</code>: stdlib, estilo OOP con <code>assertEqual</code>, <code>assertTrue</code>. <code>pytest</code>: descubrimiento automático, asserts simples con <code>assert</code> nativo, fixtures potentes, plugins. Puede correr tests de unittest. En proyectos nuevos, siempre pytest."
+    },
+    {
+      "cat": "Avanzado · Testing",
+      "q": "¿Qué es un fixture en pytest?",
+      "a": "Función con <code>@pytest.fixture</code> que provee recursos/estado a los tests. Scopes: <code>function</code> (default), <code>class</code>, <code>module</code>, <code>session</code>. Con <code>yield</code>: código antes del yield = setup, código después = teardown. Reutilizables entre múltiples tests."
+    },
+    {
+      "cat": "Avanzado · Testing",
+      "q": "¿Qué es mocking y cuándo se usa?",
+      "a": "Reemplazar dependencias reales con objetos simulados. <code>unittest.mock.patch</code> o <code>pytest-mock</code>. Se usa para aislar la unidad bajo test, evitar BD/APIs/filesystem. Objetivo: tests rápidos, deterministas y sin efectos secundarios."
+    },
+    {
+      "cat": "Avanzado · Testing",
+      "q": "¿Qué es <code>@pytest.mark.parametrize</code>?",
+      "a": "Ejecuta el mismo test con múltiples inputs: <code>@pytest.mark.parametrize('x,expected', [(1,2),(3,6)])</code>. Reduce duplicación y aumenta cobertura con poco código. Cada combinación aparece como test separado en el reporte."
+    },
+    {
+      "cat": "Avanzado · Type Hints",
+      "q": "¿Qué son los type hints en Python?",
+      "a": "Anotaciones opcionales (PEP 484, Python 3.5+). <code>def f(x: int) -> str</code>. No verificadas en runtime por defecto. <code>mypy</code> las analiza estáticamente. Mejoran legibilidad, autocompletado en IDEs y detección temprana de bugs."
+    },
+    {
+      "cat": "Avanzado · Type Hints",
+      "q": "¿Qué son <code>Optional</code>, <code>Union</code>, <code>Any</code> en typing?",
+      "a": "<code>Optional[X]</code> = <code>X | None</code>. <code>Union[X, Y]</code> = <code>X | Y</code> (Python 3.10+). <code>Any</code>: desactiva el chequeo — usar con moderación. <code>Literal['a', 'b']</code>: restringe a valores concretos. <code>TypeVar</code>: para genéricos."
+    },
+    {
+      "cat": "Avanzado · Type Hints",
+      "q": "¿Qué es Pydantic y cómo se relaciona con los type hints?",
+      "a": "Librería de <b>validación de datos en runtime</b> usando type hints. <code>BaseModel</code> valida, convierte tipos y genera JSON schema automáticamente. Base de FastAPI. Pydantic v2 (core en Rust) es ~10x más rápido que v1. Mucho más que type hints puros."
+    }
+  ]
+}

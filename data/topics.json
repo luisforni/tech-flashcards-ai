@@ -1,0 +1,37 @@
+[
+  {
+    "id": "django",
+    "title": "Django",
+    "icon": "🐍",
+    "description": "ORM, vistas, autenticación, admin, REST",
+    "count": 60
+  },
+  {
+    "id": "fastapi",
+    "title": "FastAPI",
+    "icon": "⚡",
+    "description": "Routes, Pydantic, async, dependencias, OpenAPI",
+    "count": 68
+  },
+  {
+    "id": "python",
+    "title": "Python",
+    "icon": "🐍",
+    "description": "Tipos, iteradores, decoradores, GIL, concurrencia",
+    "count": 69
+  },
+  {
+    "id": "docker",
+    "title": "Docker",
+    "icon": "🐳",
+    "description": "Images, containers, Compose, redes, volúmenes",
+    "count": 64
+  },
+  {
+    "id": "genai",
+    "title": "GenAI",
+    "icon": "🤖",
+    "description": "LLMs, RAG, embeddings, fine-tuning, prompting",
+    "count": 75
+  }
+]

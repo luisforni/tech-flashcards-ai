@@ -1,0 +1,348 @@
+{
+  "topic": "fastapi",
+  "title": "FastAPI",
+  "icon": "⚡",
+  "description": "Routes, Pydantic, async, dependencias, OpenAPI",
+  "cards": [
+    {
+      "cat": "Fundamentos",
+      "q": "¿Qué es FastAPI y qué lo diferencia de Flask y Django?",
+      "a": "<b>FastAPI</b>: framework async moderno basado en Starlette (ASGI) y Pydantic. Genera OpenAPI/Swagger automáticamente, tiene validación de tipos nativa y es uno de los frameworks Python más rápidos. Flask es sync/WSGI sin validación nativa. Django es full-stack con ORM propio."
+    },
+    {
+      "cat": "Fundamentos",
+      "q": "¿Qué es ASGI y por qué FastAPI lo usa?",
+      "a": "<b>ASGI</b> (Asynchronous Server Gateway Interface): sucesor de WSGI que soporta concurrencia async, WebSockets y HTTP/2. FastAPI sobre Uvicorn/Hypercorn puede manejar miles de conexiones concurrentes con un solo proceso gracias al event loop de asyncio."
+    },
+    {
+      "cat": "Fundamentos",
+      "q": "¿Cómo se crea una app FastAPI mínima?",
+      "a": "<code>from fastapi import FastAPI</code> → <code>app = FastAPI()</code> → <code>@app.get('/')</code> → <code>def root(): return {'msg': 'ok'}</code>. Se ejecuta con <code>uvicorn main:app --reload</code>. El <code>--reload</code> es solo para desarrollo."
+    },
+    {
+      "cat": "Fundamentos",
+      "q": "¿Qué es Uvicorn y cuándo usas Gunicorn con él?",
+      "a": "<b>Uvicorn</b>: servidor ASGI ultrarrápido basado en uvloop y httptools. Para producción se combina con <b>Gunicorn</b> como process manager: <code>gunicorn -k uvicorn.workers.UvicornWorker</code>. Gunicorn gestiona múltiples procesos worker, Uvicorn maneja la async dentro de cada uno."
+    },
+    {
+      "cat": "Fundamentos",
+      "q": "¿Qué genera FastAPI automáticamente y dónde se ve?",
+      "a": "Genera documentación OpenAPI 3.x automáticamente. Disponible en <code>/docs</code> (Swagger UI interactivo) y <code>/redoc</code> (ReDoc). También expone el schema JSON en <code>/openapi.json</code>. Todo se genera a partir de las type annotations y modelos Pydantic."
+    },
+    {
+      "cat": "Fundamentos",
+      "q": "¿Cómo funciona el ciclo de vida de una request en FastAPI?",
+      "a": "Request llega a Uvicorn → middleware stack (entrada) → router busca path operation → dependencias resueltas → handler ejecutado → response model valida salida → middleware stack (salida) → response enviada al cliente."
+    },
+    {
+      "cat": "Routing",
+      "q": "¿Qué son los path parameters y cómo se declaran?",
+      "a": "<code>@app.get('/items/{item_id}')</code> → <code>def get_item(item_id: int)</code>. FastAPI extrae, convierte y valida el parámetro automáticamente. Si el tipo no coincide, retorna 422 Unprocessable Entity automáticamente."
+    },
+    {
+      "cat": "Routing",
+      "q": "¿Qué son los query parameters en FastAPI?",
+      "a": "Parámetros de función que no están en el path: <code>def items(skip: int = 0, limit: int = 10)</code>. FastAPI los extrae de la query string (<code>?skip=0&limit=10</code>). Pueden ser opcionales con <code>Optional[str] = None</code> o con <code>str | None = None</code> (Python 3.10+)."
+    },
+    {
+      "cat": "Routing",
+      "q": "¿Cómo declaras un request body en FastAPI?",
+      "a": "Definiendo un parámetro con tipo Pydantic BaseModel: <code>def create(item: Item)</code>. FastAPI lo extrae del body JSON, lo valida contra el schema y lo convierte a instancia de la clase. Si falla la validación, retorna 422 automáticamente."
+    },
+    {
+      "cat": "Routing",
+      "q": "¿Qué es un APIRouter y para qué sirve?",
+      "a": "<code>router = APIRouter(prefix='/users', tags=['users'])</code>. Permite modularizar rutas en múltiples archivos. Se incluye en la app con <code>app.include_router(router)</code>. Equivalente al Blueprint de Flask o las sub-apps de Django."
+    },
+    {
+      "cat": "Routing",
+      "q": "¿Cómo defines múltiples métodos HTTP para el mismo path?",
+      "a": "Usando los decoradores correspondientes: <code>@router.get</code>, <code>@router.post</code>, <code>@router.put</code>, <code>@router.patch</code>, <code>@router.delete</code>. Cada uno crea una path operation independiente con su propia documentación."
+    },
+    {
+      "cat": "Routing",
+      "q": "¿Qué son los response models y para qué sirven?",
+      "a": "<code>@app.get('/user', response_model=UserOut)</code>. FastAPI filtra la respuesta para incluir solo los campos definidos en <code>UserOut</code>, serializa a JSON y documenta el schema de respuesta. Evita exponer campos sensibles como contraseñas aunque el objeto los tenga."
+    },
+    {
+      "cat": "Routing",
+      "q": "¿Cómo controlas el status code de respuesta?",
+      "a": "<code>@app.post('/items', status_code=201)</code> para el happy path. Para respuestas dinámicas: <code>from fastapi import Response</code> y <code>response.status_code = 204</code>, o lanzar <code>HTTPException(status_code=404, detail='Not found')</code>."
+    },
+    {
+      "cat": "Pydantic",
+      "q": "¿Qué es Pydantic y por qué es central en FastAPI?",
+      "a": "Librería de validación y serialización de datos usando type hints de Python. FastAPI lo usa para validar request bodies, query params, path params y responses. Pydantic v2 (Rust core) es ~10x más rápido que v1. Sin Pydantic, FastAPI perdería su propuesta de valor principal."
+    },
+    {
+      "cat": "Pydantic",
+      "q": "¿Cómo defines un modelo Pydantic básico?",
+      "a": "<code>from pydantic import BaseModel</code>. Clase que hereda de BaseModel con atributos tipados. Pydantic valida, convierte tipos y genera JSON schema automáticamente. Los campos con default son opcionales; sin default son requeridos."
+    },
+    {
+      "cat": "Pydantic",
+      "q": "¿Qué es <code>Field()</code> en Pydantic?",
+      "a": "Permite añadir metadatos y validaciones a los campos: <code>name: str = Field(..., min_length=1, max_length=100, description='User name')</code>. <code>...</code> indica campo requerido. También: <code>gt</code>, <code>ge</code>, <code>lt</code>, <code>le</code>, <code>pattern</code>, <code>alias</code>, <code>example</code>."
+    },
+    {
+      "cat": "Pydantic",
+      "q": "¿Qué es <code>model_validator</code> y <code>field_validator</code> en Pydantic v2?",
+      "a": "<code>@field_validator('campo')</code>: valida/transforma un campo específico. <code>@model_validator(mode='after')</code>: valida el modelo completo tras la inicialización (para validaciones cruzadas entre campos). Reemplaza a <code>@validator</code> y <code>@root_validator</code> de Pydantic v1."
+    },
+    {
+      "cat": "Pydantic",
+      "q": "¿Cómo configuras un modelo Pydantic con <code>model_config</code>?",
+      "a": "<code>model_config = ConfigDict(from_attributes=True)</code> (antes <code>orm_mode=True</code>): permite crear el modelo desde objetos ORM. También: <code>str_strip_whitespace=True</code>, <code>use_enum_values=True</code>, <code>populate_by_name=True</code>."
+    },
+    {
+      "cat": "Pydantic",
+      "q": "¿Qué diferencia hay entre los schemas de entrada y salida en FastAPI?",
+      "a": "Patrón estándar: <code>ItemCreate</code> (campos para crear, sin id), <code>ItemUpdate</code> (campos opcionales para patch), <code>ItemOut</code> (campos públicos de respuesta, sin datos sensibles). Separar schemas evita exponer datos internos y permite evolucionar la API independientemente."
+    },
+    {
+      "cat": "Pydantic",
+      "q": "¿Cómo defines campos opcionales para PATCH en Pydantic?",
+      "a": "Todos los campos con <code>None</code> como default: <code>name: str | None = None</code>. En el handler filtras solo los campos enviados con <code>item.model_dump(exclude_unset=True)</code>. Esto permite actualizar solo los campos incluidos en el request body."
+    },
+    {
+      "cat": "Inyección de Dependencias",
+      "q": "¿Qué es el sistema de dependencias de FastAPI?",
+      "a": "Sistema de IoC (Inversion of Control) declarativo. Se declaran funciones (o clases) como dependencias con <code>Depends(fn)</code>. FastAPI las resuelve, cachea por request, y las inyecta automáticamente. Permite compartir lógica (auth, DB session, paginación) entre múltiples endpoints."
+    },
+    {
+      "cat": "Inyección de Dependencias",
+      "q": "¿Cómo defines y usas una dependencia básica?",
+      "a": "<code>def get_db(): yield db_session</code> como generador (el código después del yield es el teardown). En el endpoint: <code>def create(db: Session = Depends(get_db))</code>. FastAPI llama a <code>get_db</code>, inyecta el valor en el endpoint, y ejecuta el teardown al terminar."
+    },
+    {
+      "cat": "Inyección de Dependencias",
+      "q": "¿Qué es el caching de dependencias en FastAPI?",
+      "a": "Por defecto, una dependencia se llama una sola vez por request aunque múltiples endpoints la usen. Con <code>Depends(fn, use_cache=False)</code> se fuerza una nueva llamada cada vez. El caching evita abrir múltiples conexiones a BD en un mismo request."
+    },
+    {
+      "cat": "Inyección de Dependencias",
+      "q": "¿Cómo inyectas una dependencia a nivel de router o app completa?",
+      "a": "<code>app = FastAPI(dependencies=[Depends(verify_token)])</code> para toda la app. <code>router = APIRouter(dependencies=[Depends(verify_api_key)])</code> para un router. Los endpoints del router/app heredan esas dependencias sin declararlas individualmente."
+    },
+    {
+      "cat": "Inyección de Dependencias",
+      "q": "¿Cómo implementas paginación como dependencia reutilizable?",
+      "a": "<code>class Pagination: def __init__(self, skip: int = 0, limit: int = Query(20, le=100)): ...</code>. En endpoints: <code>page: Pagination = Depends()</code>. Centraliza la lógica de paginación, sus validaciones y su documentación en un solo lugar."
+    },
+    {
+      "cat": "Async & Concurrencia",
+      "q": "¿Cuándo usar <code>async def</code> vs <code>def</code> en FastAPI?",
+      "a": "<code>async def</code>: cuando el handler hace operaciones awaitable (BD async, HTTP calls, etc.). <code>def</code> sync: FastAPI lo ejecuta en un threadpool para no bloquear el event loop. Usar <code>def</code> con operaciones bloqueantes es correcto; usar <code>async def</code> con código bloqueante es un error grave."
+    },
+    {
+      "cat": "Async & Concurrencia",
+      "q": "¿Qué pasa si usas <code>async def</code> con una operación bloqueante?",
+      "a": "Bloqueas el event loop completo: ninguna otra request puede procesarse mientras dura la operación. Ej: <code>async def handler(): time.sleep(5)</code> congela el servidor entero. La solución es <code>await asyncio.sleep(5)</code> o correr la función bloqueante con <code>await asyncio.to_thread(fn)</code> o <code>run_in_executor</code>."
+    },
+    {
+      "cat": "Async & Concurrencia",
+      "q": "¿Cómo manejas llamadas HTTP externas de forma async en FastAPI?",
+      "a": "Usando <code>httpx.AsyncClient</code>: <code>async with httpx.AsyncClient() as client: resp = await client.get(url)</code>. Evitar <code>requests</code> (síncrono) en handlers async. Para reutilizar el cliente, inicializarlo en lifespan y pasarlo como dependencia."
+    },
+    {
+      "cat": "Async & Concurrencia",
+      "q": "¿Qué es el BackgroundTask en FastAPI?",
+      "a": "<code>from fastapi import BackgroundTasks</code>. Ejecuta una función después de enviar la response, en el mismo proceso/thread. Útil para envío de emails o logs ligeros. Para tareas pesadas o distribuidas, usar Celery/ARQ. <code>background_tasks.add_task(send_email, to=email)</code>."
+    },
+    {
+      "cat": "Async & Concurrencia",
+      "q": "¿Cómo implementas SSE (Server-Sent Events) en FastAPI?",
+      "a": "<code>from fastapi.responses import StreamingResponse</code>. El handler es un generador async que hace <code>yield f'data: {chunk}\\\\n\\\\n'</code>. Se retorna <code>StreamingResponse(generator(), media_type='text/event-stream')</code>. Ideal para streaming de respuestas LLM."
+    },
+    {
+      "cat": "Async & Concurrencia",
+      "q": "¿Cómo implementas WebSockets en FastAPI?",
+      "a": "<code>@app.websocket('/ws')</code> → <code>async def ws(websocket: WebSocket): await websocket.accept()</code>. Luego <code>await websocket.receive_text()</code> y <code>await websocket.send_text(msg)</code> en un loop. FastAPI gestiona el handshake y el upgrade del protocolo automáticamente."
+    },
+    {
+      "cat": "Auth & Seguridad",
+      "q": "¿Cómo implementas JWT auth en FastAPI?",
+      "a": "1) <code>OAuth2PasswordBearer(tokenUrl='/auth/token')</code> como dependencia de seguridad. 2) En el endpoint <code>/token</code>: verificar credenciales, generar JWT con <code>python-jose</code>. 3) Dependencia <code>get_current_user</code> que decodifica el token. 4) Endpoints protegidos inyectan <code>current_user</code>."
+    },
+    {
+      "cat": "Auth & Seguridad",
+      "q": "¿Qué es <code>OAuth2PasswordBearer</code> en FastAPI?",
+      "a": "Esquema de seguridad que extrae el Bearer token del header <code>Authorization</code>. Se declara como dependencia y aparece en Swagger con botón de autenticación. <code>tokenUrl</code> le dice a Swagger dónde hacer el login para obtener el token."
+    },
+    {
+      "cat": "Auth & Seguridad",
+      "q": "¿Cómo implementas API key auth en FastAPI?",
+      "a": "Con <code>APIKeyHeader(name='X-API-Key')</code> o <code>APIKeyQuery(name='api_key')</code> de <code>fastapi.security</code>. Como dependencia: extrae la key del header/query, la valida contra BD o env var, lanza <code>HTTPException(403)</code> si es inválida."
+    },
+    {
+      "cat": "Auth & Seguridad",
+      "q": "¿Cómo manejas CORS en FastAPI?",
+      "a": "<code>from fastapi.middleware.cors import CORSMiddleware</code>. <code>app.add_middleware(CORSMiddleware, allow_origins=['https://myfrontend.com'], allow_methods=['*'], allow_headers=['*'], allow_credentials=True)</code>. En desarrollo puedes usar <code>allow_origins=['*']</code> pero nunca en producción con <code>allow_credentials=True</code>."
+    },
+    {
+      "cat": "Auth & Seguridad",
+      "q": "¿Cómo proteges endpoints con roles/permisos en FastAPI?",
+      "a": "Dependencia que verifica el rol del usuario autenticado: <code>def require_admin(user = Depends(get_current_user)): if user.role != 'admin': raise HTTPException(403)</code>. Se inyecta en los endpoints que requieren ese rol. También puedes crear dependencias parametrizadas con closures o clases."
+    },
+    {
+      "cat": "Base de Datos",
+      "q": "¿Cómo integras SQLAlchemy async con FastAPI?",
+      "a": "<code>create_async_engine</code> + <code>AsyncSession</code> de <code>sqlalchemy.ext.asyncio</code>. Dependencia <code>get_db</code> que hace <code>yield</code> de la sesión. Los modelos heredan de <code>DeclarativeBase</code>. Las queries usan <code>await session.execute(select(Model))</code>."
+    },
+    {
+      "cat": "Base de Datos",
+      "q": "¿Cuál es el patrón correcto para manejar la sesión de BD en FastAPI?",
+      "a": "Dependencia con <code>yield</code>: <code>async def get_db(): async with AsyncSession(engine) as session: yield session</code>. La sesión se abre al inicio del request y se cierra (con rollback automático si hay excepción) al terminar, gracias al context manager y el yield."
+    },
+    {
+      "cat": "Base de Datos",
+      "q": "¿Qué es el Repository Pattern y por qué usarlo con FastAPI?",
+      "a": "Capa de abstracción entre el handler y la BD. <code>UserRepository</code> encapsula todas las queries de usuarios. Los handlers reciben el repositorio como dependencia. Ventajas: testabilidad (mockear el repo), separación de concerns, reutilización de queries."
+    },
+    {
+      "cat": "Base de Datos",
+      "q": "¿Cómo integras Alembic para migraciones con FastAPI?",
+      "a": "<code>alembic init alembic</code> → configurar <code>env.py</code> con la URL de BD y los modelos → <code>alembic revision --autogenerate -m 'description'</code> genera la migración → <code>alembic upgrade head</code> la aplica. Ejecutar en el startup de la app o como step de CI/CD."
+    },
+    {
+      "cat": "Base de Datos",
+      "q": "¿Cómo usas connection pooling en FastAPI?",
+      "a": "<code>create_async_engine(url, pool_size=10, max_overflow=20, pool_pre_ping=True)</code>. <code>pool_pre_ping</code> verifica la conexión antes de usarla (evita errores por conexiones muertas). El pool se crea una vez al iniciar la app y se reutiliza en todos los requests."
+    },
+    {
+      "cat": "Middleware",
+      "q": "¿Cómo creas un middleware custom en FastAPI?",
+      "a": "Con <code>@app.middleware('http')</code>: <code>async def my_middleware(request: Request, call_next): response = await call_next(request); return response</code>. O con clase que hereda de <code>BaseHTTPMiddleware</code>. Se usa para logging, tracing, rate limiting, añadir headers, etc."
+    },
+    {
+      "cat": "Middleware",
+      "q": "¿Qué diferencia hay entre middleware y dependencias en FastAPI?",
+      "a": "<b>Middleware</b>: se aplica a TODOS los requests antes de que lleguen al router. No tiene acceso al path operation ni a las dependencias. <b>Dependencias</b>: se aplican a endpoints específicos, tienen acceso a Pydantic models y al contexto del endpoint. Usar middleware para lógica global, dependencias para lógica de endpoint."
+    },
+    {
+      "cat": "Middleware",
+      "q": "¿Cómo implementas rate limiting en FastAPI?",
+      "a": "Middleware custom con un store de conteo (Redis recomendado): extrae IP/API key del request, verifica el contador en Redis, incrementa o rechaza con 429. Librerías: <code>slowapi</code> (basada en limits, compatible con FastAPI), <code>fastapi-limiter</code>."
+    },
+    {
+      "cat": "Manejo de Errores",
+      "q": "¿Cómo lanzas errores HTTP en FastAPI?",
+      "a": "<code>from fastapi import HTTPException</code>. <code>raise HTTPException(status_code=404, detail='Item not found')</code>. El <code>detail</code> puede ser un string, dict o cualquier JSON-serializable. FastAPI lo convierte automáticamente en una response JSON con el status code correcto."
+    },
+    {
+      "cat": "Manejo de Errores",
+      "q": "¿Cómo creas un exception handler global en FastAPI?",
+      "a": "<code>@app.exception_handler(SomeException)</code> → <code>async def handler(request: Request, exc: SomeException): return JSONResponse(status_code=500, content={...})</code>. Permite interceptar cualquier excepción (incluyendo las no-HTTP) y retornar respuestas estructuradas."
+    },
+    {
+      "cat": "Manejo de Errores",
+      "q": "¿Qué retorna FastAPI cuando falla la validación de Pydantic?",
+      "a": "Status 422 Unprocessable Entity con un body JSON que detalla qué campos fallaron, el tipo de error y la ubicación (body, query, path). Este comportamiento es automático y está documentado en el OpenAPI schema. Se puede personalizar con un exception handler para <code>RequestValidationError</code>."
+    },
+    {
+      "cat": "Testing",
+      "q": "¿Cómo testeas endpoints FastAPI?",
+      "a": "<code>from fastapi.testclient import TestClient</code>. <code>client = TestClient(app)</code>. <code>response = client.get('/items/1')</code>. El TestClient usa <code>httpx</code> internamente y soporta tanto handlers sync como async. No levanta un servidor real, todo es en proceso."
+    },
+    {
+      "cat": "Testing",
+      "q": "¿Cómo mockeas dependencias en los tests de FastAPI?",
+      "a": "<code>app.dependency_overrides[get_db] = lambda: mock_db</code>. Permite reemplazar cualquier dependencia por un mock para tests. Limpiar con <code>app.dependency_overrides = {}</code> después del test o usando <code>pytest fixtures</code> con <code>yield</code> y cleanup."
+    },
+    {
+      "cat": "Testing",
+      "q": "¿Cómo testeas endpoints con autenticación en FastAPI?",
+      "a": "Opción 1: override de la dependencia de auth (<code>get_current_user</code>) para retornar un user fake. Opción 2: generar un JWT de test válido y pasarlo en el header. La opción 1 es más rápida y aislada; la opción 2 testea más capas del sistema."
+    },
+    {
+      "cat": "Testing",
+      "q": "¿Cómo usas pytest con FastAPI para tests async?",
+      "a": "Con <code>pytest-asyncio</code>: marcar tests con <code>@pytest.mark.asyncio</code>. Para el cliente async: <code>from httpx import AsyncClient; async with AsyncClient(app=app, base_url='http://test') as ac: resp = await ac.get('/')</code>. Configurar <code>asyncio_mode = 'auto'</code> en pytest.ini para evitar decoradores repetitivos."
+    },
+    {
+      "cat": "Lifespan & Startup",
+      "q": "¿Qué es el lifespan en FastAPI y cómo se usa?",
+      "a": "Context manager que gestiona el ciclo de vida de la app. <code>@asynccontextmanager async def lifespan(app): # startup code; yield; # shutdown code</code>. Se pasa a <code>FastAPI(lifespan=lifespan)</code>. Reemplaza a los deprecated <code>@app.on_event('startup')</code> y <code>shutdown</code>."
+    },
+    {
+      "cat": "Lifespan & Startup",
+      "q": "¿Qué se suele inicializar en el startup de FastAPI?",
+      "a": "Conexión/pool de BD, cliente Redis, clientes HTTP (httpx.AsyncClient), modelos ML cargados en memoria, conexión a message brokers, warm-up de caché. Todo lo que debe existir durante toda la vida de la app y cerrarse limpiamente al apagar."
+    },
+    {
+      "cat": "Performance & Producción",
+      "q": "¿Cómo configuras FastAPI para producción?",
+      "a": "<code>uvicorn main:app --workers 4 --host 0.0.0.0 --port 8000</code> o Gunicorn con UvicornWorker. Variables de entorno para config. <code>DEBUG=False</code>. Deshabilitar docs en prod: <code>FastAPI(docs_url=None, redoc_url=None)</code>. Reverse proxy (Nginx) delante para TLS y estáticos."
+    },
+    {
+      "cat": "Performance & Producción",
+      "q": "¿Cuántos workers de Uvicorn deberías usar?",
+      "a": "Regla general: <code>2 * núcleos_CPU + 1</code>. Para I/O-bound (mayoría de APIs), con async un solo worker puede manejar miles de conexiones. Más workers = más paralelismo CPU pero más memoria y más conexiones de BD. Ajustar según profiling real."
+    },
+    {
+      "cat": "Performance & Producción",
+      "q": "¿Cómo implementas caché en FastAPI?",
+      "a": "En memoria: <code>functools.lru_cache</code> o <code>cachetools</code> para funciones puras. Distribuida: Redis con <code>aioredis</code> o <code>redis.asyncio</code>. Con <code>fastapi-cache2</code>: decorador <code>@cache(expire=60)</code> sobre endpoints. Cachear respuestas costosas o datos que cambian poco."
+    },
+    {
+      "cat": "Performance & Producción",
+      "q": "¿Cómo gestionas las variables de entorno en FastAPI?",
+      "a": "Con Pydantic Settings: <code>class Settings(BaseSettings): db_url: str; secret_key: str</code>. Lee automáticamente de variables de entorno y archivos <code>.env</code>. Crear instancia con <code>@lru_cache</code> y exponer como dependencia: <code>Depends(get_settings)</code>."
+    },
+    {
+      "cat": "Performance & Producción",
+      "q": "¿Cómo implementas health checks en FastAPI?",
+      "a": "<code>@app.get('/health')</code>: retorna 200 con estado de la app. <code>@app.get('/ready')</code>: verifica dependencias externas (BD, Redis) antes de aceptar tráfico. Kubernetes usa liveness (<code>/health</code>) y readiness (<code>/ready</code>) probes para gestionar el ciclo de vida del pod."
+    },
+    {
+      "cat": "OpenAPI & Docs",
+      "q": "¿Cómo personalizas la documentación OpenAPI en FastAPI?",
+      "a": "<code>FastAPI(title='My API', description='...', version='2.0', contact={...}, license_info={...})</code>. Por endpoint: <code>@app.get('/path', summary='...', description='...', tags=['users'], deprecated=True)</code>. Los docstrings de las funciones también aparecen en la descripción."
+    },
+    {
+      "cat": "OpenAPI & Docs",
+      "q": "¿Cómo añades ejemplos a los schemas en FastAPI?",
+      "a": "En el modelo Pydantic: <code>model_config = ConfigDict(json_schema_extra={'example': {'name': 'Luis'}})</code>. En Field: <code>Field(..., examples=['value1'])</code>. En el endpoint: <code>Body(..., openapi_examples={'ex1': {'summary': '...', 'value': {...}}})</code>."
+    },
+    {
+      "cat": "OpenAPI & Docs",
+      "q": "¿Cómo defines diferentes response schemas para distintos status codes?",
+      "a": "<code>@app.post('/items', responses={201: {'model': ItemOut}, 400: {'model': ErrorOut}, 409: {'description': 'Conflict'}})</code>. Documenta todos los posibles responses en OpenAPI. El <code>response_model</code> del decorador es el happy path (200/201)."
+    },
+    {
+      "cat": "Patrones Avanzados",
+      "q": "¿Cómo implementas versioning de API en FastAPI?",
+      "a": "Opción 1: prefijos en router (<code>prefix='/api/v1'</code>). Opción 2: subdominios con montaje de sub-apps (<code>app.mount('/v2', app_v2)</code>). Opción 3: header-based versioning con middleware. La más común y sencilla es el prefijo en el router."
+    },
+    {
+      "cat": "Patrones Avanzados",
+      "q": "¿Cómo subes archivos en FastAPI?",
+      "a": "<code>from fastapi import UploadFile, File</code>. <code>async def upload(file: UploadFile = File(...))</code>. Acceder con <code>await file.read()</code> o <code>file.file</code> (objeto file-like). Para múltiples archivos: <code>files: list[UploadFile]</code>. Validar tipo con <code>file.content_type</code>."
+    },
+    {
+      "cat": "Patrones Avanzados",
+      "q": "¿Cómo implementas pagination con cursor en FastAPI?",
+      "a": "En vez de skip/limit, usar un cursor (ej: el ID del último elemento). El endpoint retorna <code>{'data': [...], 'next_cursor': last_id}</code>. El siguiente request pasa <code>?cursor=last_id</code>. Más eficiente que offset en BDs grandes porque evita full table scans."
+    },
+    {
+      "cat": "Patrones Avanzados",
+      "q": "¿Cómo estructuras un proyecto FastAPI grande?",
+      "a": "Estructura por dominio: <code>app/users/router.py</code>, <code>app/users/schemas.py</code>, <code>app/users/service.py</code>, <code>app/users/repository.py</code>. Capa de servicio entre el router y el repositorio. Configuración centralizada. <code>main.py</code> solo registra routers y configura la app."
+    },
+    {
+      "cat": "Patrones Avanzados",
+      "q": "¿Qué es el patrón Service Layer en FastAPI?",
+      "a": "Capa entre los routers (HTTP) y los repositorios (BD). Contiene la lógica de negocio pura, sin acoplarse a HTTP ni a la BD. El router valida input/output y delega al servicio. El servicio usa repositorios para acceder a datos. Facilita testing unitario del negocio sin levantar HTTP ni BD."
+    },
+    {
+      "cat": "Patrones Avanzados",
+      "q": "¿Cómo implementas eventos/messaging con FastAPI?",
+      "a": "FastAPI no incluye messaging built-in. Integrar con: <b>Celery</b> (tareas async distribuidas), <b>ARQ</b> (job queue async con Redis), <b>Kafka</b> (aiokafka), <b>RabbitMQ</b> (aio-pika). El endpoint publica el evento y retorna inmediatamente; el worker procesa en background."
+    },
+    {
+      "cat": "Patrones Avanzados",
+      "q": "¿Cómo haces observabilidad (tracing/logging) en FastAPI?",
+      "a": "<b>Logging</b>: <code>uvicorn</code> access logs + logging estructurado (JSON) con <code>structlog</code>. <b>Tracing</b>: OpenTelemetry con <code>opentelemetry-instrumentation-fastapi</code>, exportar a Jaeger/Tempo. <b>Métricas</b>: <code>prometheus-fastapi-instrumentator</code> para exponer <code>/metrics</code>."
+    }
+  ]
+}

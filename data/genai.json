@@ -1,0 +1,383 @@
+{
+  "topic": "genai",
+  "title": "GenAI",
+  "icon": "🤖",
+  "description": "LLMs, RAG, embeddings, fine-tuning, prompting",
+  "cards": [
+    {
+      "cat": "Fundamentos LLM",
+      "q": "¿Qué es un Large Language Model (LLM)?",
+      "a": "Modelo de deep learning entrenado sobre enormes corpus de texto usando la arquitectura Transformer. Aprende distribuciones de probabilidad sobre tokens y genera texto prediciendo el siguiente token más probable dado un contexto."
+    },
+    {
+      "cat": "Fundamentos LLM",
+      "q": "¿Qué es un token y cómo funciona el tokenizado?",
+      "a": "Unidad mínima de texto que el modelo procesa. No es siempre una palabra: puede ser subpalabra, puntuación o espacio. Tokenizadores como BPE (Byte Pair Encoding) o SentencePiece descomponen texto en tokens. GPT-4 usa ~0.75 palabras/token en inglés."
+    },
+    {
+      "cat": "Fundamentos LLM",
+      "q": "¿Qué es la ventana de contexto (context window)?",
+      "a": "Número máximo de tokens que el modelo puede procesar en una sola inferencia (input + output). Modelos actuales: GPT-4 Turbo 128k, Gemini 1.5 Pro 1M, Claude 200k. Más contexto = más memoria, más coste computacional."
+    },
+    {
+      "cat": "Fundamentos LLM",
+      "q": "¿Qué diferencia hay entre parámetros, pesos y el tamaño de un modelo?",
+      "a": "Los <b>parámetros</b> son los valores numéricos que el modelo aprende durante el entrenamiento (matrices de pesos y bias). El tamaño se mide en millones/billones de parámetros. GPT-3 tiene 175B, Llama 3 va de 8B a 70B+."
+    },
+    {
+      "cat": "Fundamentos LLM",
+      "q": "¿Qué es la temperatura en la generación de texto?",
+      "a": "Hiperparámetro que controla la aleatoriedad. T=0: determinista (siempre el token más probable). T=1: distribución original. T>1: más aleatorio/creativo. Internamente escala los logits antes del softmax: <code>p = softmax(logits / T)</code>."
+    },
+    {
+      "cat": "Fundamentos LLM",
+      "q": "¿Qué es top-p (nucleus sampling) y top-k?",
+      "a": "<b>Top-k</b>: muestrea solo entre los k tokens más probables. <b>Top-p</b>: muestrea del conjunto mínimo de tokens cuya probabilidad acumulada supera p (ej: p=0.9). Top-p es más adaptativo que top-k porque ajusta el tamaño del conjunto dinámicamente."
+    },
+    {
+      "cat": "Fundamentos LLM",
+      "q": "¿Qué es la perplejidad (perplexity) de un modelo de lenguaje?",
+      "a": "Métrica de evaluación que mide qué tan bien el modelo predice una muestra de texto. Es la exponencial de la entropía cruzada media: cuanto menor la perplejidad, mejor el modelo modela ese texto. Se usa para comparar modelos sobre el mismo corpus."
+    },
+    {
+      "cat": "Fundamentos LLM",
+      "q": "¿Qué es el fenómeno de 'hallucination' en los LLMs?",
+      "a": "Cuando el modelo genera texto factualmente incorrecto pero presentado con confianza. Causas: patrones estadísticos en el pretraining, ausencia de grounding en hechos verificables, distribución de training. Mitigaciones: RAG, grounding externo, RLHF."
+    },
+    {
+      "cat": "Arquitectura Transformer",
+      "q": "¿Qué es la arquitectura Transformer?",
+      "a": "Arquitectura de deep learning (Vaswani et al., 2017) basada en mecanismos de atención. Reemplazó las RNNs para NLP. Componentes principales: embeddings, positional encoding, capas de self-attention multi-head, feed-forward layers, layer norm, residual connections."
+    },
+    {
+      "cat": "Arquitectura Transformer",
+      "q": "¿Cómo funciona el mecanismo de self-attention?",
+      "a": "Cada token computa Query, Key y Value. La atención se calcula como: <code>softmax(QK^T / √d_k) · V</code>. Q·K^T mide relevancia entre pares de tokens; el resultado es una suma ponderada de los Values. Permite que cada token atienda a todos los otros en paralelo."
+    },
+    {
+      "cat": "Arquitectura Transformer",
+      "q": "¿Qué es la multi-head attention?",
+      "a": "En vez de una sola función de atención, se realizan h atenciones en paralelo con proyecciones distintas (cabezas). Cada cabeza aprende diferentes tipos de relaciones. Las salidas se concatenan y proyectan. Permite capturar relaciones en distintos subespacios."
+    },
+    {
+      "cat": "Arquitectura Transformer",
+      "q": "¿Por qué se divide por √d_k en la atención?",
+      "a": "Para escalar los dot products antes del softmax. Con dimensiones grandes, los productos tienden a magnitudes muy altas, empujando el softmax hacia regiones de gradientes muy pequeños (saturación). Dividir por √d_k estabiliza el entrenamiento."
+    },
+    {
+      "cat": "Arquitectura Transformer",
+      "q": "¿Qué diferencia hay entre encoder-only, decoder-only y encoder-decoder?",
+      "a": "<b>Encoder-only</b> (BERT): bidireccional, bueno para clasificación/embeddings. <b>Decoder-only</b> (GPT, Llama): autoregresivo, para generación. <b>Encoder-decoder</b> (T5, BART): tradución, resumen. Los LLMs generativos modernos usan decoder-only."
+    },
+    {
+      "cat": "Arquitectura Transformer",
+      "q": "¿Qué es el positional encoding y por qué es necesario?",
+      "a": "El Transformer procesa tokens en paralelo y no tiene orden implícito. El positional encoding añade información de posición al embedding. Original: funciones sinusoidales. Modernos: RoPE (Rotary Position Embedding) o ALiBi, que permiten mejor generalización a contextos largos."
+    },
+    {
+      "cat": "Arquitectura Transformer",
+      "q": "¿Qué es Flash Attention?",
+      "a": "Implementación optimizada del self-attention (Dao et al., 2022) que reduce el uso de memoria de O(n²) a O(n) usando tiling y recomputing. No cambia el resultado matemático pero es dramáticamente más rápido y permite contextos más largos con el mismo hardware."
+    },
+    {
+      "cat": "Arquitectura Transformer",
+      "q": "¿Qué es KV Cache y para qué sirve?",
+      "a": "Durante la generación autoregresiva, las Keys y Values de tokens previos se cachean para no recomputarse en cada paso. Reduce el coste de inferencia de O(n²) a O(n) por token generado. Esencial para inferencia eficiente en producción."
+    },
+    {
+      "cat": "Entrenamiento & Fine-tuning",
+      "q": "¿Qué es el pretraining de un LLM?",
+      "a": "Entrenamiento masivo sobre corpus de texto (Common Crawl, libros, código, etc.) con el objetivo de predecir el siguiente token (causal LM) o tokens enmascarados (BERT). Aprende gramática, hechos del mundo, razonamiento, etc. Requiere miles de GPUs durante semanas/meses."
+    },
+    {
+      "cat": "Entrenamiento & Fine-tuning",
+      "q": "¿Qué es el fine-tuning supervisado (SFT)?",
+      "a": "Ajustar un modelo preentrenado sobre un dataset más pequeño y específico, con pares (instrucción, respuesta esperada). Adapta el modelo a tareas o dominios concretos. Mucho más barato que el pretraining. Puede overfit si el dataset es pequeño."
+    },
+    {
+      "cat": "Entrenamiento & Fine-tuning",
+      "q": "¿Qué es LoRA y para qué sirve?",
+      "a": "Low-Rank Adaptation: técnica PEFT que congela los pesos originales y añade matrices de bajo rango entrenables (A·B) en paralelo. Reduce drásticamente los parámetros entrenables (ej: de 7B a ~4M). Eficiente en memoria y tiempo, fácil de intercambiar adaptadores."
+    },
+    {
+      "cat": "Entrenamiento & Fine-tuning",
+      "q": "¿Qué es QLoRA?",
+      "a": "LoRA + cuantización del modelo base a 4 bits (NF4). Permite hacer fine-tuning de modelos de 65B+ en una sola GPU de consumo. Usa double quantization y paged optimizers. Introduce algo de degradación de calidad respecto a LoRA completo pero es dramáticamente más accesible."
+    },
+    {
+      "cat": "Entrenamiento & Fine-tuning",
+      "q": "¿Qué es RLHF?",
+      "a": "Reinforcement Learning from Human Feedback. Pipeline: 1) SFT sobre demostraciones humanas. 2) Entrenar un Reward Model con preferencias humanas (comparaciones). 3) Fine-tuning con PPO usando el RM como señal de reward. Usado en ChatGPT, Claude, Gemini."
+    },
+    {
+      "cat": "Entrenamiento & Fine-tuning",
+      "q": "¿Qué es DPO (Direct Preference Optimization)?",
+      "a": "Alternativa a RLHF que elimina el entrenamiento separado del Reward Model y el RL. Optimiza directamente las preferencias humanas con una pérdida derivada. Más simple, más estable y competitivo con RLHF. Preferido en muchos fine-tunings modernos."
+    },
+    {
+      "cat": "Entrenamiento & Fine-tuning",
+      "q": "¿Qué son las técnicas PEFT?",
+      "a": "Parameter-Efficient Fine-Tuning: estrategias para adaptar LLMs modificando solo una fracción de los parámetros. Incluyen: LoRA, QLoRA, Adapter layers, Prefix Tuning, Prompt Tuning, IA³. Reducen VRAM, tiempo de entrenamiento y riesgo de catastrofic forgetting."
+    },
+    {
+      "cat": "Entrenamiento & Fine-tuning",
+      "q": "¿Qué es el catastrophic forgetting en fine-tuning?",
+      "a": "Fenómeno donde el modelo pierde conocimiento general del pretraining al fine-tunear en datos específicos. Mitigaciones: LoRA (congela pesos base), mezclar datos de pretraining con datos de fine-tuning, EWC (Elastic Weight Consolidation)."
+    },
+    {
+      "cat": "Prompt Engineering",
+      "q": "¿Qué es el prompt engineering?",
+      "a": "Diseño y optimización de instrucciones (prompts) para obtener las mejores respuestas de un LLM sin modificar sus pesos. Incluye técnicas de estructura, ejemplos, formato, chain-of-thought, etc. Es la capa de acceso más barata a las capacidades del modelo."
+    },
+    {
+      "cat": "Prompt Engineering",
+      "q": "¿Qué es zero-shot, one-shot y few-shot prompting?",
+      "a": "<b>Zero-shot</b>: sin ejemplos, solo instrucción. <b>One-shot</b>: un ejemplo en el prompt. <b>Few-shot</b>: varios ejemplos (generalmente 3-10). Los ejemplos actúan como demostraciones del formato y comportamiento esperado. Mejoran calidad sin entrenar."
+    },
+    {
+      "cat": "Prompt Engineering",
+      "q": "¿Qué es Chain-of-Thought (CoT) prompting?",
+      "a": "Técnica que pide al modelo razonar paso a paso antes de dar la respuesta final. Mejora significativamente tareas de razonamiento matemático y lógico. Variantes: Zero-shot CoT ('Piensa paso a paso'), Few-shot CoT (ejemplos con razonamiento), Tree-of-Thought."
+    },
+    {
+      "cat": "Prompt Engineering",
+      "q": "¿Qué es el system prompt y cuál es su función?",
+      "a": "Instrucción persistente al inicio del contexto que define el comportamiento, rol, tono y restricciones del modelo para toda la conversación. Se diferencia del user message en que establece las 'reglas del juego' del asistente."
+    },
+    {
+      "cat": "Prompt Engineering",
+      "q": "¿Qué es el prompt injection y cómo se mitiga?",
+      "a": "Ataque donde input malicioso del usuario intenta sobreescribir el system prompt o hacer que el modelo ignore instrucciones previas. Mitigaciones: separar claramente input de instrucciones, validar input, usar modelos con mejores alineaciones, sandboxing."
+    },
+    {
+      "cat": "Prompt Engineering",
+      "q": "¿Qué es ReAct prompting?",
+      "a": "Combina Reasoning + Acting. El modelo alterna entre pensar (Thought), actuar (Action, llamar a una tool), y observar el resultado (Observation). Es el patrón base de muchos sistemas agénticos. Permite al modelo usar herramientas y razonar sobre los resultados."
+    },
+    {
+      "cat": "RAG",
+      "q": "¿Qué es RAG (Retrieval-Augmented Generation)?",
+      "a": "Patrón que combina recuperación de información con generación. Ante una query: 1) recuperar documentos relevantes de una base de conocimiento externa, 2) añadirlos al contexto del LLM, 3) generar respuesta fundamentada. Reduce hallucinations y permite conocimiento actualizable."
+    },
+    {
+      "cat": "RAG",
+      "q": "¿Cuáles son los componentes principales de un pipeline RAG?",
+      "a": "<b>Ingestion</b>: carga, chunking, embedding, indexado. <b>Retrieval</b>: embedding de query, búsqueda (vector/keyword/hybrid). <b>Augmentation</b>: construir prompt con contexto recuperado. <b>Generation</b>: LLM genera respuesta fundamentada."
+    },
+    {
+      "cat": "RAG",
+      "q": "¿Qué es un vector store y cómo funciona?",
+      "a": "Base de datos optimizada para almacenar y buscar embeddings por similitud (ANN - Approximate Nearest Neighbors). Opciones: Chroma, Pinecone, Weaviate, Qdrant, FAISS, pgvector. Usa índices como HNSW o IVF para búsqueda eficiente en alta dimensionalidad."
+    },
+    {
+      "cat": "RAG",
+      "q": "¿Qué son los embeddings y cómo se generan?",
+      "a": "Representaciones vectoriales densas de texto en un espacio semántico donde textos similares están cerca. Se generan con modelos de embedding (OpenAI text-embedding-3, sentence-transformers, Cohere). La similitud se mide con cosine similarity o producto escalar."
+    },
+    {
+      "cat": "RAG",
+      "q": "¿Qué es el chunking y cuáles son las estrategias?",
+      "a": "Dividir documentos en fragmentos para indexar. Estrategias: <b>fixed-size</b> (N chars/tokens con overlap), <b>recursive</b> (split por párrafo → oración → palabra), <b>semantic</b> (por cambio de tema), <b>markdown-aware</b>, <b>hierarchical</b>. El tamaño del chunk afecta precision y recall."
+    },
+    {
+      "cat": "RAG",
+      "q": "¿Qué es la búsqueda híbrida en RAG?",
+      "a": "Combina búsqueda vectorial (semántica) con búsqueda léxica (BM25/keyword). Captura tanto similitud semántica como coincidencias exactas de términos. Los resultados se fusionan con RRF (Reciprocal Rank Fusion). Generalmente supera a cualquiera de las dos por separado."
+    },
+    {
+      "cat": "RAG",
+      "q": "¿Qué es el reranking en RAG?",
+      "a": "Paso posterior al retrieval donde un modelo cross-encoder (ej: Cohere Rerank, bge-reranker) puntúa la relevancia real de cada chunk recuperado respecto a la query. Más preciso que embeddings bi-encoder pero más lento. Se aplica a los top-k resultados antes de enviar al LLM."
+    },
+    {
+      "cat": "RAG",
+      "q": "¿Qué problemas tiene RAG naive y cómo se mejora (Advanced RAG)?",
+      "a": "Problemas naive: chunks de mala calidad, retrieval irrelevante, contexto ruidoso. Advanced RAG: <b>pre-retrieval</b> (query rewriting, HyDE), <b>retrieval</b> (híbrido, reranking, MMR), <b>post-retrieval</b> (compression, reordering), <b>evaluación</b> (RAGAS)."
+    },
+    {
+      "cat": "RAG",
+      "q": "¿Qué es HyDE (Hypothetical Document Embeddings)?",
+      "a": "Técnica pre-retrieval: en vez de embeddear la query directamente, el LLM genera primero un documento hipotético que respondería la pregunta, y ese documento se embedea para buscar. Mejora el recall porque los documentos reales y el hipotético están en el mismo espacio."
+    },
+    {
+      "cat": "Agentes & Orquestación",
+      "q": "¿Qué es un agente de IA?",
+      "a": "Sistema donde un LLM actúa como 'cerebro' que planifica, toma decisiones, llama a herramientas externas (tools) y actúa en el mundo para cumplir un objetivo. A diferencia de un chatbot, puede ejecutar múltiples pasos, iterar y corregir su propio output."
+    },
+    {
+      "cat": "Agentes & Orquestación",
+      "q": "¿Qué son las tools/function calling en los LLMs?",
+      "a": "Capacidad del modelo para indicar cuándo quiere llamar a una función externa (búsqueda web, BD, API, código) y con qué parámetros. El resultado se devuelve al modelo que lo usa para continuar. OpenAI, Anthropic y Google lo soportan nativamente."
+    },
+    {
+      "cat": "Agentes & Orquestación",
+      "q": "¿Qué es LangChain y para qué sirve?",
+      "a": "Framework para construir aplicaciones con LLMs. Abstrae: chains, agents, memory, document loaders, vector stores, callbacks. Tiene una curva de aprendizaje y puede ser verbose, pero acelera el prototipado. LangGraph (extensión) permite flujos con estado y ciclos."
+    },
+    {
+      "cat": "Agentes & Orquestación",
+      "q": "¿Qué es LangGraph?",
+      "a": "Librería de LangChain para construir agentes y workflows como grafos dirigidos (con ciclos). Los nodos son funciones, las aristas definen el flujo. Permite control explícito del estado, human-in-the-loop, y patrones como multi-agent y supervisor. Más predecible que agentes libres."
+    },
+    {
+      "cat": "Agentes & Orquestación",
+      "q": "¿Qué diferencia hay entre un agente y un workflow LLM?",
+      "a": "<b>Workflow</b>: flujo predefinido y determinista donde el LLM ejecuta pasos fijos. <b>Agente</b>: el LLM decide dinámicamente qué pasos ejecutar y en qué orden. Los workflows son más predecibles y auditables; los agentes son más flexibles pero menos controlables."
+    },
+    {
+      "cat": "Agentes & Orquestación",
+      "q": "¿Qué es el patrón de agente multi-step con memoria?",
+      "a": "El agente mantiene un estado (memoria de corto/largo plazo) que se actualiza en cada step. Tipos de memoria: <b>in-context</b> (historial en el prompt), <b>external</b> (vector store, BD), <b>procedural</b> (system prompt). LangGraph gestiona el estado explícitamente entre nodos."
+    },
+    {
+      "cat": "Agentes & Orquestación",
+      "q": "¿Qué es el patrón de multi-agent y cuándo se usa?",
+      "a": "Varios agentes especializados coordinados por un orquestador. Ventajas: cada agente tiene contexto enfocado, paralelismo, especialización. Patrones: supervisor (un agente coordina), peer-to-peer, pipeline. Útil cuando la tarea es demasiado compleja para un solo agente."
+    },
+    {
+      "cat": "Agentes & Orquestación",
+      "q": "¿Qué es CrewAI?",
+      "a": "Framework de multi-agent donde defines Crews (equipos), Agents (con rol, goal, backstory), Tasks y Tools. Los agentes colaboran delegando tareas entre sí. Abstracción más high-level que LangGraph, orientada a casos de uso de trabajo colaborativo entre agentes especializados."
+    },
+    {
+      "cat": "Agentes & Orquestación",
+      "q": "¿Qué es el Model Context Protocol (MCP)?",
+      "a": "Estándar abierto de Anthropic para conectar LLMs con fuentes de datos y herramientas externas. Define un protocolo cliente-servidor donde el LLM actúa como cliente y los MCP servers exponen tools, resources y prompts. Facilita ecosistema de integraciones reutilizables."
+    },
+    {
+      "cat": "Evaluación de LLMs",
+      "q": "¿Cómo evalúas un sistema RAG?",
+      "a": "Con RAGAS (framework): métricas <b>faithfulness</b> (respuesta soportada por contexto), <b>answer relevancy</b> (respuesta relevante a la pregunta), <b>context precision</b> (chunks relevantes en top-k), <b>context recall</b> (info necesaria recuperada). También evaluación humana."
+    },
+    {
+      "cat": "Evaluación de LLMs",
+      "q": "¿Qué es LLM-as-a-Judge?",
+      "a": "Usar un LLM fuerte (GPT-4, Claude) para evaluar el output de otro LLM. Puntúa según criterios definidos (coherencia, fidelidad, relevancia). Más escalable que evaluación humana, pero puede tener sesgos (posición, verbosidad, autopreferencia). Validar contra ground truth humano."
+    },
+    {
+      "cat": "Evaluación de LLMs",
+      "q": "¿Qué es el benchmark MMLU y otros benchmarks clásicos?",
+      "a": "<b>MMLU</b>: conocimiento académico multidisciplinar. <b>HumanEval</b>: código. <b>GSM8K</b>: matemáticas de primaria. <b>HellaSwag</b>: sentido común. <b>TruthfulQA</b>: veracidad. <b>LMSYS Chatbot Arena</b>: preferencia humana comparativa (Elo). Ninguno es completo por sí solo."
+    },
+    {
+      "cat": "Evaluación de LLMs",
+      "q": "¿Qué métricas usas para evaluar generación de texto?",
+      "a": "<b>BLEU</b>: n-gram overlap (traducción). <b>ROUGE</b>: recall de n-grams (resumen). <b>BERTScore</b>: similitud semántica con embeddings. <b>MeteorScore</b>. Para open-ended: evaluación humana o LLM-as-a-Judge. Las métricas automáticas clásicas correlacionan mal con calidad percibida."
+    },
+    {
+      "cat": "Cuantización & Optimización",
+      "q": "¿Qué es la cuantización de un LLM?",
+      "a": "Reducir la precisión numérica de los pesos para ahorrar memoria y acelerar la inferencia. FP32 → FP16 → BF16 → INT8 → INT4. Trade-off: menor precisión = menor calidad. Métodos: GPTQ, AWQ, GGUF (llama.cpp). Permite correr modelos grandes en hardware limitado."
+    },
+    {
+      "cat": "Cuantización & Optimización",
+      "q": "¿Qué diferencia hay entre GPTQ, AWQ y GGUF?",
+      "a": "<b>GPTQ</b>: cuantización post-training capa por capa, optimiza los pesos para minimizar el error. <b>AWQ</b>: protege los pesos más importantes, mejor calidad que GPTQ. <b>GGUF</b>: formato de llama.cpp para CPU+GPU, permite mixed quantization por capa. GGUF es el más accesible."
+    },
+    {
+      "cat": "Cuantización & Optimización",
+      "q": "¿Qué es el speculative decoding?",
+      "a": "Técnica de inferencia donde un modelo pequeño (draft model) genera varios tokens rápidamente, y el modelo grande los verifica en paralelo en un solo forward pass. Si el grande acepta los tokens del pequeño, se ahorra tiempo. Speedup de 2-3x sin cambiar la distribución de salida."
+    },
+    {
+      "cat": "Cuantización & Optimización",
+      "q": "¿Qué es vLLM y PagedAttention?",
+      "a": "vLLM es un motor de inferencia de alto rendimiento para LLMs. PagedAttention gestiona la KV Cache en bloques no contiguos (como memoria virtual de SO), eliminando fragmentación y permitiendo batching más eficiente. Multiplica el throughput de inferencia en producción."
+    },
+    {
+      "cat": "Embeddings & Semántica",
+      "q": "¿Qué diferencia hay entre embeddings bi-encoder y cross-encoder?",
+      "a": "<b>Bi-encoder</b>: codifica query y documento por separado, permite precomputar embeddings, búsqueda O(1) con ANN. <b>Cross-encoder</b>: procesa query+documento juntos, mucho más preciso pero lento (no escalable para retrieval inicial). Se usan en combinación: bi para recall, cross para reranking."
+    },
+    {
+      "cat": "Embeddings & Semántica",
+      "q": "¿Qué es el semantic search vs keyword search?",
+      "a": "<b>Keyword search</b> (BM25, Elasticsearch): coincidencia léxica, exacta, rápida, falla con sinónimos. <b>Semantic search</b>: usa embeddings para buscar por significado, captura sinónimos y paráfrasis, falla con términos técnicos exactos. La búsqueda híbrida combina ambas."
+    },
+    {
+      "cat": "Embeddings & Semántica",
+      "q": "¿Qué es HNSW (Hierarchical Navigable Small World)?",
+      "a": "Algoritmo de Approximate Nearest Neighbor (ANN) usado en Chroma, Qdrant, Weaviate. Construye un grafo multicapa donde los nodos superiores tienen conexiones de largo alcance. Permite búsqueda logarítmica en alta dimensionalidad. Trade-off: velocidad vs recall configurable."
+    },
+    {
+      "cat": "Modelos Multimodales",
+      "q": "¿Qué son los modelos multimodales?",
+      "a": "Modelos que procesan y generan múltiples modalidades: texto, imagen, audio, video, código. Ejemplos: GPT-4o (texto+imagen+audio), Gemini Ultra, Claude (texto+imagen), DALL-E 3 (texto→imagen), Whisper (audio→texto). Comparten un espacio de representación común."
+    },
+    {
+      "cat": "Modelos Multimodales",
+      "q": "¿Cómo se integran imágenes en un LLM?",
+      "a": "Un vision encoder (ej: CLIP, ViT) procesa la imagen y genera embeddings visuales que se proyectan al espacio del LLM mediante una capa de proyección. El modelo ve la imagen como 'tokens visuales'. LLaVA, GPT-4V, Idefics siguen variantes de este patrón."
+    },
+    {
+      "cat": "Seguridad & Alineación",
+      "q": "¿Qué es la alineación de modelos de IA?",
+      "a": "El problema de asegurar que los sistemas de IA actúan de acuerdo a los valores e intenciones humanas. Dimensiones: <b>helpful</b> (útil), <b>harmless</b> (inofensivo), <b>honest</b> (veraz). Técnicas: RLHF, DPO, Constitutional AI, RLAIF."
+    },
+    {
+      "cat": "Seguridad & Alineación",
+      "q": "¿Qué es Constitutional AI (CAI) de Anthropic?",
+      "a": "Técnica de alineación donde el modelo usa un conjunto de principios (constitución) para auto-criticar y revisar sus propias respuestas. Reduce la dependencia de feedback humano y puede escalar. Usado en el entrenamiento de Claude."
+    },
+    {
+      "cat": "Seguridad & Alineación",
+      "q": "¿Qué es el jailbreaking y cómo se previene?",
+      "a": "Intentos de eludir las restricciones de seguridad del modelo mediante prompts maliciosos (roleplay, codificación, fragmentación). Prevención: RLHF robusto, clasificadores de input/output, guardrails (Guardrails AI, NeMo Guardrails), Constitutional AI."
+    },
+    {
+      "cat": "Seguridad & Alineación",
+      "q": "¿Qué son los guardrails en sistemas LLM?",
+      "a": "Capa de validación antes y/o después del LLM. Pueden ser: clasificadores de toxicidad/PII, reglas de negocio, validadores de formato, detectores de prompt injection. Frameworks: Guardrails AI, NVIDIA NeMo Guardrails, LlamaGuard. Trade-off: seguridad vs latencia."
+    },
+    {
+      "cat": "Observabilidad & MLOps",
+      "q": "¿Qué métricas monitorizas en un sistema LLM en producción?",
+      "a": "<b>Calidad</b>: evaluación con LLM-as-judge, feedback humano, métricas RAGAS. <b>Latencia</b>: TTFT (time to first token), TPS (tokens/seg). <b>Coste</b>: tokens input/output, coste por llamada. <b>Errores</b>: rate, timeouts, hallucinations detectadas."
+    },
+    {
+      "cat": "Observabilidad & MLOps",
+      "q": "¿Qué es LangSmith y Langfuse?",
+      "a": "<b>LangSmith</b>: plataforma de LangChain para trazabilidad, debugging y evaluación de chains/agents. <b>Langfuse</b>: plataforma open-source de observabilidad para LLMs: traces, scores, datasets, evals. Ambas permiten ver exactamente qué ocurre en cada paso del pipeline."
+    },
+    {
+      "cat": "Observabilidad & MLOps",
+      "q": "¿Qué es el model drift en LLMs y cómo lo detectas?",
+      "a": "Degradación del rendimiento del modelo con el tiempo: cambios en la distribución de queries, actualizaciones del modelo base por el proveedor, cambios en datos externos (para RAG). Detectar: monitorizar métricas de calidad continuamente, A/B testing, evals automatizadas."
+    },
+    {
+      "cat": "Modelos Open Source",
+      "q": "¿Cuáles son los principales modelos open source disponibles?",
+      "a": "<b>Meta</b>: Llama 3 (8B, 70B, 405B). <b>Mistral AI</b>: Mistral 7B, Mixtral 8x7B (MoE), Mistral Large. <b>Qwen</b>: Qwen2.5 (0.5B–72B). <b>Google</b>: Gemma 2. <b>Microsoft</b>: Phi-3. Para código: DeepSeek Coder, Starcoder2, CodeLlama."
+    },
+    {
+      "cat": "Modelos Open Source",
+      "q": "¿Qué es MoE (Mixture of Experts)?",
+      "a": "Arquitectura donde el modelo tiene múltiples sub-redes 'expertos' y un router que activa solo un subconjunto por token. Mixtral 8x7B activa 2 de 8 expertos por token. Permite modelos con muchos parámetros totales pero coste de inferencia equivalente a modelos mucho más pequeños."
+    },
+    {
+      "cat": "Modelos Open Source",
+      "q": "¿Cómo sirves un modelo open source en producción?",
+      "a": "Opciones: <b>Ollama</b> (local/Docker, sencillo). <b>vLLM</b> (alto throughput, OpenAI-compatible API). <b>TGI</b> (HuggingFace, producción). <b>llama.cpp</b> (CPU+GPU, GGUF). Cloud: Replicate, Together AI, Fireworks, Groq (LPU, ultra-rápido). Self-hosted en GPU: vLLM es el estándar."
+    },
+    {
+      "cat": "Arquitecturas Avanzadas",
+      "q": "¿Qué es el context length extension y cómo se logra?",
+      "a": "Extender la ventana de contexto más allá de lo entrenado. Técnicas: RoPE scaling (YaRN, LongRoPE), fine-tuning con contextos largos, sliding window attention. Modelos con 1M+ tokens (Gemini 1.5) usan arquitecturas especiales como ring attention o compresión de contexto."
+    },
+    {
+      "cat": "Arquitecturas Avanzadas",
+      "q": "¿Qué es Structured Output / JSON mode en LLMs?",
+      "a": "Modo que garantiza que el LLM genera JSON válido con un schema específico. Implementaciones: OpenAI response_format, Anthropic tool_use, Outlines (logit masking). Fundamental para integrar LLMs en sistemas de software que esperan datos estructurados."
+    },
+    {
+      "cat": "Arquitecturas Avanzadas",
+      "q": "¿Qué diferencia hay entre streaming y non-streaming en inferencia LLM?",
+      "a": "<b>Non-streaming</b>: espera a que se genere toda la respuesta antes de retornar. <b>Streaming</b>: retorna tokens según se generan (SSE/WebSockets). Streaming mejora UX drasticamente (percepción de velocidad), esencial para interfaces conversacionales. TTFT (time-to-first-token) es la métrica clave."
+    },
+    {
+      "cat": "Arquitecturas Avanzadas",
+      "q": "¿Qué es el grounding y por qué es importante?",
+      "a": "Conectar las respuestas del LLM a fuentes verificables y datos reales. Sin grounding el modelo puede alucinar. Métodos: RAG (documentos), function calling (APIs en tiempo real), web search, base de datos estructurada. El grounding es la principal mitigación de hallucinations en producción."
+    }
+  ]
+}
