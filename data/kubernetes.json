@@ -1,0 +1,153 @@
+{
+  "topic": "kubernetes",
+  "title": "Kubernetes",
+  "icon": "✦",
+  "description": "Generado con IA · 29 cards",
+  "cards": [
+    {
+      "cat": "Básico",
+      "q": "¿Qué es <code>Kubernetes</code> y para qué se utiliza?",
+      "a": "Kubernetes es un sistema de código abierto para la automatización del despliegue, el escalado y la gestión de aplicaciones en contenedores. Se utiliza para gestionar y orquestar clusters de contenedores, brindando una plataforma escalable y flexible para la implementación de aplicaciones en la nube. <b>Orquestación de contenedores</b> es su función principal."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Cuál es la diferencia entre <code>Docker</code> y <code>Kubernetes</code>?",
+      "a": "Docker es un proyecto de código abierto que permite a los desarrolladores empaquetar, enviar y ejecutar aplicaciones en contenedores. Kubernetes, por otro lado, es un sistema para automatizar el despliegue, el escalado y la gestión de aplicaciones en contenedores. En otras palabras, <b>Docker</b> se centra en los contenedores individuales, mientras que <b>Kubernetes</b> se centra en la orquestación de múltiples contenedores."
+    },
+    {
+      "cat": "Core Concepts",
+      "q": "¿Qué es un <code>Pod</code> en Kubernetes?",
+      "a": "Un <code>Pod</code> es la unidad más básica de ejecución en Kubernetes. Es un grupo de uno o más contenedores que comparten los mismos recursos y se ejecutan en el mismo host. Los <b>Pods</b> son efímeros y pueden ser creados, escalados y eliminados dinámicamente."
+    },
+    {
+      "cat": "Core Concepts",
+      "q": "¿Qué es un <code> Deployment</code> en Kubernetes?",
+      "a": "Un <code>Deployment</code> es un recurso en Kubernetes que gestiona el ciclo de vida de los <b>Pods</b>. Permite a los usuarios especificar el número de réplicas de un <b>Pod</b> que deben estar ejecutándose en un momento dado, y automáticamente gestiona la creación, el escalado y la actualización de los <b>Pods</b>."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Cómo se implementa la <code>seguridad</code> en un cluster de Kubernetes?",
+      "a": "La seguridad en un cluster de Kubernetes se implementa mediante la autenticación y la autorización de los usuarios y los servicios. Se pueden utilizar <b>certificados SSL/TLS</b> para cifrar el tráfico de red, y <b>roles y permisos</b> para controlar el acceso a los recursos del cluster. Además, se pueden utilizar <b>Network Policies</b> para controlar el tráfico de red entre los <b>Pods</b>."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Qué es un <code>Cluster</code> en Kubernetes y cómo se administra?",
+      "a": "Un <code>Cluster</code> en Kubernetes es un grupo de máquinas que trabajan juntas para proporcionar un entorno de ejecución para las aplicaciones. El cluster se administra mediante el comando <code>kubectl</code>, que permite a los usuarios crear, escalar y eliminar recursos en el cluster. También se pueden utilizar <b>herramientas de administración</b> como <b>Dashboards</b> y <b>Monitoreo</b> para supervisar el estado del cluster."
+    },
+    {
+      "cat": "Patrones comunes",
+      "q": "¿Cuál es el patrón de <code>Blue-Green Deployment</code> en Kubernetes?",
+      "a": "El patrón de <code>Blue-Green Deployment</code> es una técnica de implementación que implica crear dos entornos de producción idénticos, uno <b>azul</b> y otro <b>verde</b>. Se despliega la nueva versión de la aplicación en el entorno <b>verde</b> y se redirige el tráfico hacia él una vez que se completa la implementación. Este patrón permite una <b>transición sin interrupciones</b> entre versiones."
+    },
+    {
+      "cat": "Patrones comunes",
+      "q": "¿Cuál es el patrón de <code>Canary Release</code> en Kubernetes?",
+      "a": "El patrón de <code>Canary Release</code> es una técnica de implementación que implica desplegar una nueva versión de la aplicación en un pequeño porcentaje de los usuarios y monitorear su comportamiento antes de desplegarla en todo el entorno de producción. Este patrón permite <b>probar la nueva versión</b> en un entorno de producción real sin afectar a todos los usuarios."
+    },
+    {
+      "cat": "Patrones comunes",
+      "q": "¿Cuál es el patrón de <code>Rolling Update</code> en Kubernetes?",
+      "a": "El patrón de <code>Rolling Update</code> es una técnica de implementación que implica actualizar los <b>Pods</b> uno a uno, asegurando que la aplicación siga disponible durante la actualización. Este patrón permite <b>minimizar el tiempo de inactividad</b> y asegurar que la aplicación siga funcionando correctamente durante la actualización."
+    },
+    {
+      "cat": "Mejores prácticas",
+      "q": "¿Cuáles son las mejores prácticas para <code>monitorear</code> un cluster de Kubernetes?",
+      "a": "Las mejores prácticas para monitorear un cluster de Kubernetes incluyen <b>monitorear el estado de los Pods</b>, <b>monitorear el uso de recursos</b> y <b>monitorear los logs de la aplicación</b>. También es importante <b>configurar alertas</b> para notificar a los equipos de operaciones cuando se produzcan problemas en el cluster."
+    },
+    {
+      "cat": "Mejores prácticas",
+      "q": "¿Cuáles son las mejores prácticas para <code>gestionar</code> los <code>Secrets</code> en Kubernetes?",
+      "a": "Las mejores prácticas para gestionar los <code>Secrets</code> en Kubernetes incluyen <b>almacenar los Secretos de forma segura</b>, <b>utilizar variables de entorno</b> y <b>restringir el acceso</b> a los Secretos. También es importante <b>rotar los Secretos</b> regularmente para minimizar el riesgo de que sean comprometidos."
+    },
+    {
+      "cat": "Gotchas",
+      "q": "¿Cuál es el <code>problema de los Pods efímeros</code> en Kubernetes?",
+      "a": "El problema de los Pods efímeros en Kubernetes se refiere a que los <b>Pods</b> pueden ser eliminados en cualquier momento, lo que puede causar <b>pérdida de datos</b> y <b>interrupciones en la aplicación</b>. Para solucionar este problema, es importante <b>utilizar almacenamiento persistente</b> y <b>diseñar la aplicación para ser tolerante a fallas</b>."
+    },
+    {
+      "cat": "Gotchas",
+      "q": "¿Cuál es el <code>problema de la sobrecarga de red</code> en Kubernetes?",
+      "a": "El problema de la sobrecarga de red en Kubernetes se refiere a que el <b>tráfico de red</b> entre los <b>Pods</b> puede ser muy alto, lo que puede causar <b>problemas de rendimiento</b> y <b>interrupciones en la aplicación</b>. Para solucionar este problema, es importante <b>utilizar Network Policies</b> y <b>optimizar la configuración de red</b>."
+    },
+    {
+      "cat": "Gotchas",
+      "q": "¿Cuál es el <code>problema de la complejidad</code> en Kubernetes?",
+      "a": "El problema de la complejidad en Kubernetes se refiere a que el sistema puede ser muy <b>complejo</b> y <b>difícil de administrar</b>, especialmente para los equipos que no tienen experiencia con la tecnología. Para solucionar este problema, es importante <b>utilizar herramientas de administración</b> y <b>documentar la configuración</b> del cluster."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué es un <code>Namespace</code> en Kubernetes?",
+      "a": "Un <code>Namespace</code> es una forma de dividir los recursos de un cluster de Kubernetes en entornos aislados. Los <b>Namespaces</b> permiten a los equipos trabajar en proyectos diferentes sin interferir entre sí."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué es un <code>ConfigMap</code> en Kubernetes?",
+      "a": "Un <code>ConfigMap</code> es un recurso en Kubernetes que almacena configuraciones de aplicaciones en forma de pares clave-valor. Los <b>ConfigMaps</b> permiten a los desarrolladores separar la configuración de la aplicación del código."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Cómo se implementa la <code>seguridad del lado del cliente</code> en un cluster de Kubernetes?",
+      "a": "La seguridad del lado del cliente en un cluster de Kubernetes se implementa mediante la autenticación y la autorización de los clientes que acceden a los recursos del cluster. Se pueden utilizar <b>certificados SSL/TLS</b> y <b>tokens de acceso</b> para autenticar y autorizar a los clientes."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Qué es un <code>DaemonSet</code> en Kubernetes?",
+      "a": "Un <code>DaemonSet</code> es un recurso en Kubernetes que gestiona el ciclo de vida de los <b>Pods</b> que se ejecutan en cada nodo del cluster. Los <b>DaemonSets</b> permiten a los desarrolladores implementar servicios que requieren la ejecución de un <b>Pod</b> en cada nodo del cluster."
+    },
+    {
+      "cat": "Patrones comunes",
+      "q": "¿Cuál es el patrón de <code>Sidecar</code> en Kubernetes?",
+      "a": "El patrón de <code>Sidecar</code> es una técnica de implementación que implica ejecutar un contenedor adicional junto a un contenedor principal. El contenedor adicional, llamado <b>Sidecar</b>, proporciona funcionalidades adicionales al contenedor principal, como la gestión de logs o la seguridad."
+    },
+    {
+      "cat": "Patrones comunes",
+      "q": "¿Cuál es el patrón de <code>InitContainer</code> en Kubernetes?",
+      "a": "El patrón de <code>InitContainer</code> es una técnica de implementación que implica ejecutar un contenedor antes de que se ejecute el contenedor principal. El contenedor <b>InitContainer</b> se utiliza para realizar tareas de inicialización, como la configuración de la red o la carga de datos."
+    },
+    {
+      "cat": "Mejores prácticas",
+      "q": "¿Cuáles son las mejores prácticas para <code>realizar copias de seguridad</code> en un cluster de Kubernetes?",
+      "a": "Las mejores prácticas para realizar copias de seguridad en un cluster de Kubernetes incluyen <b>realizar copias de seguridad de los datos de la aplicación</b>, <b>realizar copias de seguridad de la configuración del cluster</b> y <b>realizar copias de seguridad de los logs de la aplicación</b>. También es importante <b>almacenar las copias de seguridad en un lugar seguro</b> y <b>restaurar las copias de seguridad en caso de una falla</b>."
+    },
+    {
+      "cat": "Mejores prácticas",
+      "q": "¿Cuáles son las mejores prácticas para <code>monitorear el rendimiento</code> en un cluster de Kubernetes?",
+      "a": "Las mejores prácticas para monitorear el rendimiento en un cluster de Kubernetes incluyen <b>monitorear el uso de recursos</b>, <b>monitorear el tiempo de respuesta de la aplicación</b> y <b>monitorear los logs de la aplicación</b>. También es importante <b>configurar alertas</b> para notificar a los equipos de operaciones cuando se produzcan problemas de rendimiento."
+    },
+    {
+      "cat": "Gotchas",
+      "q": "¿Cuál es el <code>problema de la falta de recursos</code> en Kubernetes?",
+      "a": "El problema de la falta de recursos en Kubernetes se refiere a que el cluster puede no tener suficientes recursos para ejecutar las aplicaciones. Para solucionar este problema, es importante <b>monitorear el uso de recursos</b> y <b>escalar el cluster</b> según sea necesario."
+    },
+    {
+      "cat": "Gotchas",
+      "q": "¿Cuál es el <code>problema de la incompatibilidad de versiones</code> en Kubernetes?",
+      "a": "El problema de la incompatibilidad de versiones en Kubernetes se refiere a que las diferentes versiones de Kubernetes pueden no ser compatibles entre sí. Para solucionar este problema, es importante <b>actualizar el cluster</b> a la última versión y <b>probar la compatibilidad</b> de las aplicaciones con la nueva versión."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué es un <code>ClusterRole</code> en Kubernetes?",
+      "a": "Un <code>ClusterRole</code> es un recurso en Kubernetes que define un conjunto de permisos para acceder a los recursos del cluster. Los <b>ClusterRoles</b> se utilizan para autorizar a los usuarios y los servicios a acceder a los recursos del cluster."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Cómo se implementa la <code>autenticación de dos factores</code> en un cluster de Kubernetes?",
+      "a": "La autenticación de dos factores en un cluster de Kubernetes se implementa mediante la autenticación de los usuarios con un token de acceso y un código de autenticación. Se pueden utilizar <b>servicios de autenticación</b> como <b>LDAP</b> o <b>Active Directory</b> para autenticar a los usuarios."
+    },
+    {
+      "cat": "Patrones comunes",
+      "q": "¿Cuál es el patrón de <code>Job</code> en Kubernetes?",
+      "a": "El patrón de <code>Job</code> es una técnica de implementación que implica ejecutar un contenedor que realiza una tarea específica y luego se detiene. Los <b>Jobs</b> se utilizan para realizar tareas de procesamiento de datos, como la importación de datos o la generación de informes."
+    },
+    {
+      "cat": "Mejores prácticas",
+      "q": "¿Cuáles son las mejores prácticas para <code>documentar</code> un cluster de Kubernetes?",
+      "a": "Las mejores prácticas para documentar un cluster de Kubernetes incluyen <b>documentar la configuración del cluster</b>, <b>documentar los recursos del cluster</b> y <b>documentar los procedimientos de operación</b>. También es importante <b>actualizar la documentación</b> regularmente para reflejar los cambios en el cluster."
+    },
+    {
+      "cat": "Gotchas",
+      "q": "¿Cuál es el <code>problema de la falta de visibilidad</code> en Kubernetes?",
+      "a": "El problema de la falta de visibilidad en Kubernetes se refiere a que puede ser difícil obtener información sobre el estado del cluster y las aplicaciones que se ejecutan en él. Para solucionar este problema, es importante <b>utilizar herramientas de monitoreo</b> y <b>configurar alertas</b> para notificar a los equipos de operaciones cuando se produzcan problemas."
+    }
+  ]
+}

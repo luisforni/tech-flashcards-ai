@@ -1,0 +1,138 @@
+{
+  "topic": "git",
+  "title": "Git",
+  "icon": "✦",
+  "description": "Generado con IA · 26 cards",
+  "cards": [
+    {
+      "cat": "Básico",
+      "q": "¿Cuál es el propósito de <code>git init</code>?",
+      "a": "El comando <code>git init</code> se utiliza para crear un nuevo repositorio de Git en un directorio existente. Esto inicializa el directorio y lo prepara para que se puedan realizar operaciones de control de versiones. Los archivos de configuración y los metadatos se almacenarán en un directorio oculto llamado <code>.git</code>. <b>Inicializar un repositorio</b> es el primer paso para empezar a trabajar con Git."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Cómo se agrega un archivo al <b>área de preparación</b> en Git?",
+      "a": "Para agregar un archivo al <b>área de preparación</b> (también conocido como <b>stage</b>), se utiliza el comando <code>git add</code> seguido del nombre del archivo. Por ejemplo, <code>git add archivo.txt</code> agrega el archivo <code>archivo.txt</code> al área de preparación. Esto prepara el archivo para ser incluido en el próximo <b>commit</b>."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué es un <b>commit</b> en Git y cómo se realiza?",
+      "a": "Un <b>commit</b> en Git es una instantánea del estado de un proyecto en un momento determinado. Para realizar un commit, se utiliza el comando <code>git commit -m &quot;mensaje de commit&quot;</code>. El mensaje de commit es una descripción breve de los cambios realizados en ese commit. Los commits son fundamentales en el control de versiones, ya que permiten revertir cambios y rastrear el historial de un proyecto."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Cuál es la función del comando <code>git log</code>?",
+      "a": "El comando <code>git log</code> se utiliza para visualizar el historial de commits de un proyecto. Muestra una lista de todos los commits realizados, incluyendo la fecha, el autor, el mensaje de commit y el hash del commit. Esto es útil para <b>rastrear cambios</b> y entender la evolución de un proyecto a lo largo del tiempo."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Cómo se crea una nueva <b>rama</b> en Git?",
+      "a": "Para crear una nueva rama en Git, se utiliza el comando <code>git branch nombre_de_la_rama</code>. Esto crea una nueva rama con el nombre especificado, pero no cambia a esa rama. Para comenzar a trabajar en la nueva rama, debes cambiar a ella utilizando <code>git checkout nombre_de_la_rama</code>. Las ramas son esenciales para el desarrollo paralelo y la gestión de diferentes versiones de un proyecto."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Qué es <b>git merge</b> y cómo se utiliza?",
+      "a": "El comando <code>git merge</code> se utiliza para unir los cambios de una rama en la rama actual. Por ejemplo, si estás trabajando en una función en una rama llamada <code>feature/nueva-funcion</code> y deseas incorporar esos cambios a la rama <code>main</code>, primero cambias a la rama <code>main</code> con <code>git checkout main</code>, y luego ejecutas <code>git merge feature/nueva-funcion</code>. Esto combina los cambios de ambas ramas en la rama <code>main</code>."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Qué es <b>git rebase</b> y en qué se diferencia de <b>git merge</b>?",
+      "a": "El comando <code>git rebase</code> se utiliza para reaplicar los commits de una rama sobre otra rama. A diferencia de <code>git merge</code>, que crea un nuevo commit que combina los cambios de ambas ramas, <code>git rebase</code> reescribe el historial de commits, aplicando los cambios de una rama sobre la otra de manera lineal. Esto puede resultar en un historial de commits más limpio, pero también puede ser más complicado de manejar, especialmente en entornos de colaboración."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Cómo se resuelve un conflicto de merge en Git?",
+      "a": "Cuando Git no puede combinar automáticamente los cambios de dos ramas debido a conflictos, debes resolverlos manualmente. Los conflictos se marcan con <<<, === y >>> en los archivos afectados. Para resolverlos, edita los archivos para fusionar los cambios de manera adecuada, luego agrega los archivos resueltos con <code>git add</code> y finalmente confirma los cambios con <code>git commit</code>. Es importante resolver los conflictos de manera cuidadosa para preservar la integridad del código."
+    },
+    {
+      "cat": "Performance",
+      "q": "¿Cómo se optimiza el rendimiento de un repositorio Git grande?",
+      "a": "Para optimizar el rendimiento de un repositorio Git grande, se pueden utilizar varios métodos. Uno de ellos es <code>git gc</code>, que ejecuta la recolección de basura, compactando y optimizando el repositorio. Otro método es dividir el historial del proyecto en repositorios más pequeños o utilizar <code>git filter-branch</code> para eliminar archivos grandes o innecesarios del historial. Además, utilizar <code>git lfs</code> para archivos grandes puede ayudar a mejorar el rendimiento al almacenar estos archivos de manera más eficiente."
+    },
+    {
+      "cat": "Best Practices",
+      "q": "¿Cuáles son las mejores prácticas para los mensajes de commit en Git?",
+      "a": "Las mejores prácticas para los mensajes de commit incluyen ser <b>concisos</b> y <b>descriptivos</b>. Un buen mensaje de commit debe explicar el <b>qué</b> y el <b>por qué</b> de los cambios realizados, sin necesidad de detalles técnicos exhaustivos. Debe ser escrito en imperativo, comenzando con un verbo como <b>Agrega</b>, <b>Corrige</b> o <b>Mejora</b>. Esto facilita la comprensión del historial del proyecto y la colaboración entre los desarrolladores."
+    },
+    {
+      "cat": "Best Practices",
+      "q": "¿Por qué es importante realizar commits pequeños y frecuentes?",
+      "a": "Realizar commits pequeños y frecuentes es una buena práctica porque facilita la <b>revisión</b> y el <b>teste</b> de los cambios. Cada commit debe representar una unidad lógica de trabajo, como la solución a un problema específico o la implementación de una función. Esto permite una <b>integración continua</b> más efectiva y reduce el riesgo de errores, ya que es más fácil identificar y revertir cambios problemáticos cuando se realizan en commits pequeños y manejables."
+    },
+    {
+      "cat": "Gotchas",
+      "q": "¿Cuál es el problema con el uso de <code>git add .</code> sin precaución?",
+      "a": "El uso de <code>git add .</code> sin precaución puede agregar accidentalmente archivos que no deberían estar en el repositorio, como archivos de configuración locales, archivos compilados o datos sensibles. Esto puede llevar a problemas de seguridad, conflictos en el equipo o una base de código desordenada. Es recomendable agregar archivos individualmente o utilizar <code>git add -u</code> para agregar solo los archivos que ya están siendo rastreados por Git."
+    },
+    {
+      "cat": "Gotchas",
+      "q": "¿Qué sucede si se borra accidentalmente un archivo importante del repositorio?",
+      "a": "Si se borra accidentalmente un archivo importante del repositorio, Git puede recuperarlo desde el historial de commits. Utilizando <code>git log --all -- &quot;nombre_del_archivo.txt&quot;</code>, puedes encontrar el hash del commit donde el archivo estaba presente. Luego, puedes recuperar el archivo con <code>git checkout <hash_del_commit> -- nombre_del_archivo.txt</code>. Esto restaura el archivo a su estado en ese commit específico, permitiéndote recuperar el trabajo perdido."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué es <b>git status</b> y para qué se utiliza?",
+      "a": "El comando <code>git status</code> se utiliza para obtener información sobre el estado actual del repositorio. Muestra los archivos que han sido modificados, agregados al área de preparación o que están listos para ser confirmados. También indica si el repositorio está al día con el repositorio remoto o si hay cambios que necesitan ser empujados o jalados. <b>git status</b> es una herramienta fundamental para entender el estado del proyecto y planificar los próximos pasos en el flujo de trabajo de Git."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Cómo se clona un repositorio Git existente?",
+      "a": "Para clonar un repositorio Git existente, se utiliza el comando <code>git clone url_del_repositorio</code>. Esto crea una copia completa del repositorio en el directorio local, incluyendo todo el historial de commits. El comando <code>git clone</code> es la forma estándar de obtener una copia de un proyecto Git para comenzar a trabajar en él o contribuir a su desarrollo."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Qué es <b>git stash</b> y cómo se utiliza?",
+      "a": "El comando <code>git stash</code> se utiliza para guardar temporalmente los cambios que has realizado en el directorio de trabajo, permitiéndote cambiar de rama o realizar otros commits sin tener que realizar un commit parcial o perder tus cambios. Los cambios se almacenan en una <b>pila</b>, de donde puedes recuperarlos más tarde con <code>git stash apply</code> o <code>git stash pop</code>. Esto es especialmente útil cuando necesitas urgentemente cambiar de rama para realizar una corrección o atender una prioridad."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Cómo se utiliza <b>git cherry-pick</b>?",
+      "a": "El comando <code>git cherry-pick</code> se utiliza para aplicar un commit específico a la rama actual. Por ejemplo, si un commit con el hash <code>abc123</code> se realizó en otra rama y deseas aplicar ese cambio a la rama actual, ejecutas <code>git cherry-pick abc123</code>. Esto reaplica los cambios de ese commit en la rama actual, creando un nuevo commit con los mismos cambios. Es útil para portar cambios entre ramas sin tener que realizar un merge completo."
+    },
+    {
+      "cat": "Best Practices",
+      "q": "¿Por qué es importante utilizar ramas para el desarrollo de funciones?",
+      "a": "Utilizar ramas para el desarrollo de funciones es una buena práctica porque permite el desarrollo paralelo y aislado de características sin afectar la rama principal del proyecto. Cada rama de función puede ser trabajada de manera independiente, probada y revisada antes de ser incorporada a la rama principal a través de un merge o rebase. Esto ayuda a mantener la estabilidad de la rama principal, reduce conflictos y facilita la gestión de diferentes versiones del proyecto."
+    },
+    {
+      "cat": "Gotchas",
+      "q": "¿Qué sucede si se fuerza un push a un repositorio remoto y se pierden commits?",
+      "a": "Si se fuerza un push a un repositorio remoto con <code>git push -f</code> y se pierden commits, es posible recuperar el historial perdido desde el repositorio local de otros colaboradores, siempre y cuando no hayan realizado un <code>git pull</code> desde el repositorio remoto después de la fuerza del push. De lo contrario, se puede intentar recuperar los commits perdidos utilizando <code>git reflog</code> o <code>git fsck</code> en el repositorio remoto, aunque esto puede ser más complicado y no siempre tiene éxito."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué es <b>git remote</b> y para qué se utiliza?",
+      "a": "El comando <code>git remote</code> se utiliza para gestionar los repositorios remotos asociados con el repositorio local. Permite agregar, eliminar o renombrar repositorios remotos, y verificar su estado. Un ejemplo común es <code>git remote add origin url_del_repositorio</code>, que agrega un nuevo repositorio remoto llamado <code>origin</code> para el repositorio local."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Cómo se utiliza <b>git submodule</b>?",
+      "a": "El comando <code>git submodule</code> se utiliza para gestionar submódulos dentro de un proyecto Git. Un submódulo es un proyecto Git independiente que se incluye dentro de otro proyecto Git. Esto es útil para proyectos que dependen de bibliotecas o componentes que también se manejan con Git. Con <code>git submodule add</code>, puedes agregar un submódulo a tu proyecto, y con <code>git submodule update</code>, puedes actualizar los submódulos a la última versión."
+    },
+    {
+      "cat": "Best Practices",
+      "q": "¿Qué son las <b>pull requests</b> y por qué son útiles?",
+      "a": "Las <b>pull requests</b> son una característica de las plataformas de hospedaje de Git, como GitHub o GitLab, que permiten a los desarrolladores proponer cambios a un repositorio y solicitar que estos cambios sean revisados y fusionados por otros. Las pull requests son útiles porque facilitan la colaboración, permiten una revisión de código más estricta y ayudan a mantener la calidad del código. También proporcionan una plataforma para discutir los cambios antes de que sean incorporados al proyecto principal."
+    },
+    {
+      "cat": "Gotchas",
+      "q": "¿Qué problemas pueden surgir al trabajar con <b>archivos grandes</b> en Git?",
+      "a": "Al trabajar con archivos grandes en Git, como archivos de video o bases de datos, pueden surgir problemas de rendimiento y tamaño del repositorio. Los archivos grandes pueden hacer que los clones y los pull sean lentos, y también pueden aumentar significativamente el tamaño del repositorio. Para mitigar esto, se pueden utilizar herramientas como <code>git lfs</code> (Git Large File Storage), que almacena los archivos grandes de manera eficiente, reduciendo el impacto en el rendimiento y el tamaño del repositorio."
+    },
+    {
+      "cat": "Básico",
+      "q": "¿Qué es <b>git tag</b> y para qué se utiliza?",
+      "a": "El comando <code>git tag</code> se utiliza para crear puntos de referencia en el historial de commits de un proyecto, marcando versiones específicas del software. Los tags pueden ser <b>ligeros</b> (solo contienen el hash del commit) o <b>annotados</b> (contienen información adicional como el autor y la fecha). Los tags son útiles para marcar lanzamientos de versiones, permitiendo una fácil referencia y descarga de versiones específicas del proyecto."
+    },
+    {
+      "cat": "Avanzado",
+      "q": "¿Cómo se utiliza <b>git bisect</b> para encontrar bugs?",
+      "a": "El comando <code>git bisect</code> se utiliza para identificar automáticamente el commit que introdujo un bug en el proyecto. Funciona de manera binaria, reduciendo el número de commits que debes revisar para encontrar el problema. Comienzas con <code>git bisect start</code>, luego marcas el commit actual como bueno o malo con <code>git bisect good</code> o <code>git bisect bad</code>, y Git te guía a través del proceso de eliminación hasta encontrar el commit exacto donde se introdujo el bug."
+    },
+    {
+      "cat": "Best Practices",
+      "q": "¿Por qué es importante documentar los cambios en el código?",
+      "a": "Documentar los cambios en el código es crucial porque proporciona contexto a otros desarrolladores (y al propio desarrollador en el futuro) sobre <b>qué</b> se cambió, <b>por qué</b> se cambió y <b>cómo</b> se cambió. La documentación adecuada facilita la comprensión del código, reduce el tiempo de depuración y mejora la colaboración en equipo. Esto se puede lograr a través de comentarios en el código, mensajes de commit descriptivos y documentación de proyecto."
+    }
+  ]
+}

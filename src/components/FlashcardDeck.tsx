@@ -142,6 +142,11 @@ export default function FlashcardDeck({ topic, builtinData, forceGenerate }: Pro
         cards: data.cards,
       };
       saveGeneratedToLS(newTopicData);
+      fetch('/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTopicData),
+      }).catch(() => {});
       startPlay(data.cards);
     } catch (err) {
       setGenerateError(err instanceof Error ? err.message : 'Error desconocido');

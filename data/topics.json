@@ -33,5 +33,26 @@
     "icon": "🤖",
     "description": "LLMs, RAG, embeddings, fine-tuning, prompting",
     "count": 75
+  },
+  {
+    "id": "cicd",
+    "title": "CI/CD",
+    "icon": "✦",
+    "description": "Generado con IA · 31 cards",
+    "count": 31
+  },
+  {
+    "id": "git",
+    "title": "Git",
+    "icon": "✦",
+    "description": "Generado con IA · 26 cards",
+    "count": 26
+  },
+  {
+    "id": "kubernetes",
+    "title": "Kubernetes",
+    "icon": "✦",
+    "description": "Generado con IA · 29 cards",
+    "count": 29
   }
 ]

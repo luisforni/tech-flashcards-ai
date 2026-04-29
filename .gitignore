@@ -11,6 +11,8 @@ $RECYCLE.BIN/
 
 .vscode/
 .idea/
+.claude/settings.json
+.claudeignore
 *.iml
 *.suo
 *.user

@@ -22,9 +22,10 @@ export default function HubClient({ builtinTopics }: Props) {
     } catch {}
   }, []);
 
+  const builtinIds = new Set(builtinTopics.map(t => t.id));
   const allTopics: TopicMeta[] = [
     ...builtinTopics.map(t => ({ ...t, source: 'builtin' as const })),
-    ...generatedTopics.map(t => ({ ...t, source: 'generated' as const })),
+    ...generatedTopics.filter(t => !builtinIds.has(t.id)).map(t => ({ ...t, source: 'generated' as const })),
   ];
 
   const filtered = search.trim()
